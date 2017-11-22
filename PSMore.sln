@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSMore", "src\PSMore.csproj", "{73C1DFBE-BC10-4398-9D30-538B875337EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSMoreTest", "test\PSMoreTest.csproj", "{0DAEC48D-36D7-479B-BCEB-5ADF3BB271E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73C1DFBE-BC10-4398-9D30-538B875337EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73C1DFBE-BC10-4398-9D30-538B875337EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73C1DFBE-BC10-4398-9D30-538B875337EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73C1DFBE-BC10-4398-9D30-538B875337EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DAEC48D-36D7-479B-BCEB-5ADF3BB271E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DAEC48D-36D7-479B-BCEB-5ADF3BB271E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DAEC48D-36D7-479B-BCEB-5ADF3BB271E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DAEC48D-36D7-479B-BCEB-5ADF3BB271E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8CE5955-F3F0-41B2-98B2-7BE05BB01B5C}
+	EndGlobalSection
+EndGlobal
