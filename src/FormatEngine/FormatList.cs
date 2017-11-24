@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace PSMore.Formatting
 {
@@ -32,7 +31,7 @@ namespace PSMore.Formatting
             if (other == null) return false;
 
             return string.Equals(PropertyName, other.PropertyName)
-               && object.ReferenceEquals(Expression, other.Expression);
+               && ReferenceEquals(Expression, other.Expression);
         }
 
         public override int GetHashCode()
@@ -43,15 +42,33 @@ namespace PSMore.Formatting
 
     public class ListFormat : FormatDirective
     {
-        public ListFormat(string name, IEnumerable<ListEntry> entries)
+        public ListFormat(IEnumerable<ListEntry> entries = null, string name = "Default")
             : base(name)
         {
-            Entries = new ReadOnlyCollection<ListEntry>(entries.ToArray());
+            Entries = new ReadOnlyCollection<ListEntry>(entries?.ToArray() ?? Array.Empty<ListEntry>());
         }
 
-        public ListFormat(IEnumerable<ListEntry> entries)
-            : this(null, entries)
+        public ListFormat(object[] properties, string name = "Default")
+            : base(name)
         {
+            if (properties == null || properties.Length == 0)
+                throw new ArgumentException();
+
+            var entries = new List<ListEntry>(properties.Length);
+            foreach (object p in properties)
+            {
+                switch (p)
+                {
+                    case string propName:
+                        entries.Add(new ListEntry(propName));
+                        break;
+
+                    default:
+                        throw new ArgumentException();
+                }
+            }
+
+            Entries = new ReadOnlyCollection<ListEntry>(entries);
         }
 
         public ReadOnlyCollection<ListEntry> Entries { get; }
@@ -62,10 +79,10 @@ namespace PSMore.Formatting
             return string.Format(formatExpr, propertyName, propertyAsString);
         }
 
-        private static MethodInfo FormatLineMethodInfo =
+        private static readonly MethodInfo FormatLineMethodInfo =
             typeof(ListFormat).GetMethod(nameof(FormatLine), BindingFlags.NonPublic | BindingFlags.Static);
 
-        private static MethodInfo ListFormatEquals =
+        private static readonly MethodInfo ListFormatEquals =
             typeof(ListFormat).GetMethod(nameof(Equals));
 
         internal override Expression Bind(Expression toFormat, Type toFormatType, Expression directive, LabelTarget returnLabel)
@@ -98,10 +115,11 @@ namespace PSMore.Formatting
 
         public override bool Equals(object obj)
         {
-            var other = obj as ListFormat;
-            if (other == null) return false;
+            if (ReferenceEquals(obj, this)) return true;
 
-            if (Entries.Count != other.Entries.Count) return false;
+            var other = obj as ListFormat;
+            if (Entries.Count != other?.Entries.Count) return false;
+
             for (int i = 0; i < Entries.Count; i++)
             {
                 if (!Entries[i].Equals(other.Entries[i])) return false;

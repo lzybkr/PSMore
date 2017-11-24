@@ -22,11 +22,16 @@ namespace PSMore
         {
             if (InputObject == null || InputObject.Length == 0) return;
 
+            bool first = true;
             _objects.AddRange(InputObject);
             foreach (var obj in InputObject)
             {
                 foreach (var line in FormatEngine.Format(obj))
+                {
+                    if (!first) Console.WriteLine();
+                    first = false;
                     Console.WriteLine(line);
+                }
             }
         }
     }

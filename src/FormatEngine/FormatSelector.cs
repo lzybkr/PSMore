@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using PSMore.FormatAttributes;
 
 namespace PSMore.Formatting
 {
@@ -23,6 +25,27 @@ namespace PSMore.Formatting
     {
         private static readonly Dictionary<Type, List<FormatDirective>> FormatDefinitions =
             new Dictionary<Type, List<FormatDirective>>(100);
+
+        static FormatSelector()
+        {
+            foreach (var type in typeof(FormatSelector).Assembly.GetTypes())
+            {
+                foreach (var cad in type.GetCustomAttributesData())
+                {
+                    if (cad.AttributeType != typeof(FormatProxyAttribute)) continue;
+                    if (cad.ConstructorArguments.Count != 1) continue;
+                    var proxyOf = cad.ConstructorArguments[0].Value as Type;
+                    if (proxyOf == null) continue;
+                    if (!FormatDefinitions.TryGetValue(proxyOf, out var directives))
+                    {
+                        directives = new List<FormatDirective>();
+                        FormatDefinitions.Add(proxyOf, directives);
+                    }
+
+                    FormatGenerator.Generate(type, directives);
+                }
+            }
+        }
 
         public static FormatDirective FindDirective(FormatSelectionCriteria criteria)
         {

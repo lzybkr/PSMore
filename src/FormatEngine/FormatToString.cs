@@ -6,6 +6,8 @@ namespace PSMore.Formatting
 {
     public class FormatToString : FormatDirective
     {
+        public FormatToString() : base("Default") { }
+
         private static readonly MethodInfo _toString = typeof(object).GetMethod("ToString", Type.EmptyTypes);
 
         internal override Expression Bind(Expression toFormat, Type toFormatType, Expression directive, LabelTarget returnLabel)

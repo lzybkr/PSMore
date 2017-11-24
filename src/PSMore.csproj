@@ -44,8 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="PSMore.cs" />
+    <Compile Include="FormatEngine\FormatAttributes.cs" />
+    <Compile Include="Cmdlets\PSMore.cs" />
+    <Compile Include="Cmdlets\PSMoreFormatList.cs" />
+    <Compile Include="Cmdlets\PSMoreOutString.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="DefaultFormats\System.Diagnostics.Formats.cs" />
     <Compile Include="FormatEngine\FormatBinders.cs" />
     <Compile Include="FormatEngine\FormatEngine.cs" />
     <Compile Include="FormatEngine\FormatGenerator.cs" />
