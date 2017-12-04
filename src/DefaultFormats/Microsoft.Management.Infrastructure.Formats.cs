@@ -23,7 +23,6 @@ namespace PSMore.DefaultFormats
         }
     }
 
-
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
     internal abstract class CimInstance_Win32_VolumeQuotaSetting_FormatProxy
     {
