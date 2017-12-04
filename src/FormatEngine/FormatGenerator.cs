@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation.Language;
 using System.Reflection;
 using PSMore.FormatAttributes;
 
@@ -18,6 +19,7 @@ namespace PSMore.Formatting
         {
             public string Name;
             public int Position;
+            public bool Default;
         }
 
         public static void Generate(Type type, ICondition when, List<FormatDirective> directives)
@@ -31,19 +33,38 @@ namespace PSMore.Formatting
                 bool sawDefaultDisplay = false;
                 foreach (var cad in member.GetCustomAttributesData())
                 {
-                    if (cad.AttributeType == typeof(DefaultDisplayPropertyAttribute))
+                    if (cad.AttributeType == typeof(DisplayPropertyAttribute))
                     {
-                        // All of these checks shouldn't be necessary, the compiler
-                        // should enforce, but in case they don't, just ignore the attribute.
-                        if (cad.ConstructorArguments.Count != 1) continue;
-                        var position = cad.ConstructorArguments[0].Value;
-                        if (!(position is int)) continue;
-                        if (sawDefaultDisplay) continue;
+                        // Compilers should make these checks unnecessary, but compilers could have bugs.
+                        if (cad.ConstructorArguments.Count != 0) continue; // We only have a default ctor.
+                        if (sawDefaultDisplay) continue; // Ignore multiple attributes.
+
+                        object position = null;
+                        object isDefault = null;
+                        if (cad.NamedArguments != null)
+                        {
+                            foreach (var na in cad.NamedArguments)
+                            {
+                                if (na.MemberName.Equals(nameof(DisplayPropertyAttribute.Position), StringComparison.Ordinal))
+                                {
+                                    position = na.TypedValue.Value;
+                                    continue;
+                                }
+
+                                if (na.MemberName.Equals(nameof(DisplayPropertyAttribute.Default), StringComparison.Ordinal))
+                                {
+                                    isDefault = na.TypedValue.Value;
+                                    continue;
+                                }
+                            }
+                        }
 
                         sawDefaultDisplay = true;
                         defaultProperties.Add(new OrderedProperty
                         {
-                            Name = member.Name, Position = (int)position
+                            Name = member.Name,
+                            Position = position is int p ? p : -1,
+                            Default = isDefault is bool b && b,
                         });
                     }
                 }

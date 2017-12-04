@@ -32,8 +32,8 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_VolumeQuotaSetting", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Element;
-        [DefaultDisplayProperty(1)] public object Setting;
+        [DisplayProperty(Position = 0)] public object Element;
+        [DisplayProperty(Position = 1)] public object Setting;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -45,12 +45,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_BaseBoard", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Manufacturer;
-        [DefaultDisplayProperty(1)] public object Model;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object SerialNumber;
-        [DefaultDisplayProperty(4)] public object SKU;
-        [DefaultDisplayProperty(5)] public object Product;
+        [DisplayProperty(Position = 0)] public object Manufacturer;
+        [DisplayProperty(Position = 1)] public object Model;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object SerialNumber;
+        [DisplayProperty(Position = 4)] public object SKU;
+        [DisplayProperty(Position = 5)] public object Product;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -62,12 +62,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemEnclosure", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Manufacturer;
-        [DefaultDisplayProperty(1)] public object Model;
-        [DefaultDisplayProperty(2)] public object LockPresent;
-        [DefaultDisplayProperty(3)] public object SerialNumber;
-        [DefaultDisplayProperty(4)] public object SMBIOSAssetTag;
-        [DefaultDisplayProperty(5)] public object SecurityStatus;
+        [DisplayProperty(Position = 0)] public object Manufacturer;
+        [DisplayProperty(Position = 1)] public object Model;
+        [DisplayProperty(Position = 2)] public object LockPresent;
+        [DisplayProperty(Position = 3)] public object SerialNumber;
+        [DisplayProperty(Position = 4)] public object SMBIOSAssetTag;
+        [DisplayProperty(Position = 5)] public object SecurityStatus;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -79,15 +79,15 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NTDomain", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object ClientSiteName;
-        [DefaultDisplayProperty(1)] public object DcSiteName;
-        [DefaultDisplayProperty(2)] public object Description;
-        [DefaultDisplayProperty(3)] public object DnsForestName;
-        [DefaultDisplayProperty(4)] public object DomainControllerAddress;
-        [DefaultDisplayProperty(5)] public object DomainControllerName;
-        [DefaultDisplayProperty(6)] public object DomainName;
-        [DefaultDisplayProperty(7)] public object Roles;
-        [DefaultDisplayProperty(8)] public object Status;
+        [DisplayProperty(Position = 0)] public object ClientSiteName;
+        [DisplayProperty(Position = 1)] public object DcSiteName;
+        [DisplayProperty(Position = 2)] public object Description;
+        [DisplayProperty(Position = 3)] public object DnsForestName;
+        [DisplayProperty(Position = 4)] public object DomainControllerAddress;
+        [DisplayProperty(Position = 5)] public object DomainControllerName;
+        [DisplayProperty(Position = 6)] public object DomainName;
+        [DisplayProperty(Position = 7)] public object Roles;
+        [DisplayProperty(Position = 8)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -99,12 +99,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkLoginProfile", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object Privileges;
-        [DefaultDisplayProperty(2)] public object Profile;
-        [DefaultDisplayProperty(3)] public object UserId;
-        [DefaultDisplayProperty(4)] public object UserType;
-        [DefaultDisplayProperty(5)] public object Workstations;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object Privileges;
+        [DisplayProperty(Position = 2)] public object Profile;
+        [DisplayProperty(Position = 3)] public object UserId;
+        [DisplayProperty(Position = 4)] public object UserType;
+        [DisplayProperty(Position = 5)] public object Workstations;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -116,12 +116,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_ComputerSystem", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Domain;
-        [DefaultDisplayProperty(1)] public object Manufacturer;
-        [DefaultDisplayProperty(2)] public object Model;
-        [DefaultDisplayProperty(3)] public object Name;
-        [DefaultDisplayProperty(4)] public object PrimaryOwnerName;
-        [DefaultDisplayProperty(5)] public object TotalPhysicalMemory;
+        [DisplayProperty(Position = 0)] public object Domain;
+        [DisplayProperty(Position = 1)] public object Manufacturer;
+        [DisplayProperty(Position = 2)] public object Model;
+        [DisplayProperty(Position = 3)] public object Name;
+        [DisplayProperty(Position = 4)] public object PrimaryOwnerName;
+        [DisplayProperty(Position = 5)] public object TotalPhysicalMemory;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -133,9 +133,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_TimeZone", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Bias;
-        [DefaultDisplayProperty(1)] public object SettingID;
-        [DefaultDisplayProperty(2)] public object Caption;
+        [DisplayProperty(Position = 0)] public object Bias;
+        [DisplayProperty(Position = 1)] public object SettingID;
+        [DisplayProperty(Position = 2)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -147,10 +147,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_DiskQuota", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DiskSpaceUsed;
-        [DefaultDisplayProperty(1)] public object Limit;
-        [DefaultDisplayProperty(2)] public object QuotaVolume;
-        [DefaultDisplayProperty(3)] public object User;
+        [DisplayProperty(Position = 0)] public object DiskSpaceUsed;
+        [DisplayProperty(Position = 1)] public object Limit;
+        [DisplayProperty(Position = 2)] public object QuotaVolume;
+        [DisplayProperty(Position = 3)] public object User;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -162,11 +162,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_SoftwareFeature", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object IdentifyingNumber;
-        [DefaultDisplayProperty(2)] public object ProductName;
-        [DefaultDisplayProperty(3)] public object Vendor;
-        [DefaultDisplayProperty(4)] public object Version;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object IdentifyingNumber;
+        [DisplayProperty(Position = 2)] public object ProductName;
+        [DisplayProperty(Position = 3)] public object Vendor;
+        [DisplayProperty(Position = 4)] public object Version;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -178,12 +178,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Printer", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Location;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object PrinterState;
-        [DefaultDisplayProperty(3)] public object PrinterStatus;
-        [DefaultDisplayProperty(4)] public object ShareName;
-        [DefaultDisplayProperty(5)] public object SystemName;
+        [DisplayProperty(Position = 0)] public object Location;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object PrinterState;
+        [DisplayProperty(Position = 3)] public object PrinterStatus;
+        [DisplayProperty(Position = 4)] public object ShareName;
+        [DisplayProperty(Position = 5)] public object SystemName;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -195,11 +195,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_VoltageProbe", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Status;
-        [DefaultDisplayProperty(1)] public object Description;
-        [DefaultDisplayProperty(2)] public object CurrentReading;
-        [DefaultDisplayProperty(3)] public object MaxReadable;
-        [DefaultDisplayProperty(4)] public object MinReadable;
+        [DisplayProperty(Position = 0)] public object Status;
+        [DisplayProperty(Position = 1)] public object Description;
+        [DisplayProperty(Position = 2)] public object CurrentReading;
+        [DisplayProperty(Position = 3)] public object MaxReadable;
+        [DisplayProperty(Position = 4)] public object MinReadable;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -211,11 +211,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_TapeDrive", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DeviceID;
-        [DefaultDisplayProperty(1)] public object Id;
-        [DefaultDisplayProperty(2)] public object Manufacturer;
-        [DefaultDisplayProperty(3)] public object Name;
-        [DefaultDisplayProperty(4)] public object Caption;
+        [DisplayProperty(Position = 0)] public object DeviceID;
+        [DisplayProperty(Position = 1)] public object Id;
+        [DisplayProperty(Position = 2)] public object Manufacturer;
+        [DisplayProperty(Position = 3)] public object Name;
+        [DisplayProperty(Position = 4)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -227,9 +227,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PortResource", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Alias;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Alias;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -241,8 +241,8 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_LoadOrderGroup", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object GroupOrder;
-        [DefaultDisplayProperty(1)] public object Name;
+        [DisplayProperty(Position = 0)] public object GroupOrder;
+        [DisplayProperty(Position = 1)] public object Name;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -254,10 +254,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "WIN32_SoundDevice", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Manufacturer;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Status;
-        [DefaultDisplayProperty(3)] public object StatusInfo;
+        [DisplayProperty(Position = 0)] public object Manufacturer;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Status;
+        [DisplayProperty(Position = 3)] public object StatusInfo;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -269,11 +269,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_BIOS", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object SMBIOSBIOSVersion;
-        [DefaultDisplayProperty(1)] public object Manufacturer;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object SerialNumber;
-        [DefaultDisplayProperty(4)] public object Version;
+        [DisplayProperty(Position = 0)] public object SMBIOSBIOSVersion;
+        [DisplayProperty(Position = 1)] public object Manufacturer;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object SerialNumber;
+        [DisplayProperty(Position = 4)] public object Version;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -285,12 +285,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "WIN32_DESKTOPMONITOR", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DeviceID;
-        [DefaultDisplayProperty(1)] public object DisplayType;
-        [DefaultDisplayProperty(2)] public object MonitorManufacturer;
-        [DefaultDisplayProperty(3)] public object Name;
-        [DefaultDisplayProperty(4)] public object ScreenHeight;
-        [DefaultDisplayProperty(5)] public object ScreenWidth;
+        [DisplayProperty(Position = 0)] public object DeviceID;
+        [DisplayProperty(Position = 1)] public object DisplayType;
+        [DisplayProperty(Position = 2)] public object MonitorManufacturer;
+        [DisplayProperty(Position = 3)] public object Name;
+        [DisplayProperty(Position = 4)] public object ScreenHeight;
+        [DisplayProperty(Position = 5)] public object ScreenWidth;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -302,11 +302,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_ScheduledJob", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object JobId;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Owner;
-        [DefaultDisplayProperty(3)] public object Priority;
-        [DefaultDisplayProperty(4)] public object Command;
+        [DisplayProperty(Position = 0)] public object JobId;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Owner;
+        [DisplayProperty(Position = 3)] public object Priority;
+        [DisplayProperty(Position = 4)] public object Command;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -318,12 +318,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkProtocol", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object GuaranteesDelivery;
-        [DefaultDisplayProperty(2)] public object GuaranteesSequencing;
-        [DefaultDisplayProperty(3)] public object ConnectionlessService;
-        [DefaultDisplayProperty(4)] public object Status;
-        [DefaultDisplayProperty(5)] public object Name;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object GuaranteesDelivery;
+        [DisplayProperty(Position = 2)] public object GuaranteesSequencing;
+        [DisplayProperty(Position = 3)] public object ConnectionlessService;
+        [DisplayProperty(Position = 4)] public object Status;
+        [DisplayProperty(Position = 5)] public object Name;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -335,12 +335,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "WIN32_PROCESSOR", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object DeviceID;
-        [DefaultDisplayProperty(2)] public object Manufacturer;
-        [DefaultDisplayProperty(3)] public object MaxClockSpeed;
-        [DefaultDisplayProperty(4)] public object Name;
-        [DefaultDisplayProperty(5)] public object SocketDesignation;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object DeviceID;
+        [DisplayProperty(Position = 2)] public object Manufacturer;
+        [DisplayProperty(Position = 3)] public object MaxClockSpeed;
+        [DisplayProperty(Position = 4)] public object Name;
+        [DisplayProperty(Position = 5)] public object SocketDesignation;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -352,12 +352,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_LogicalDisk", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DeviceID;
-        [DefaultDisplayProperty(1)] public object DriveType;
-        [DefaultDisplayProperty(2)] public object ProviderName;
-        [DefaultDisplayProperty(3)] public object FreeSpace;
-        [DefaultDisplayProperty(4)] public object Size;
-        [DefaultDisplayProperty(5)] public object VolumeName;
+        [DisplayProperty(Position = 0)] public object DeviceID;
+        [DisplayProperty(Position = 1)] public object DriveType;
+        [DisplayProperty(Position = 2)] public object ProviderName;
+        [DisplayProperty(Position = 3)] public object FreeSpace;
+        [DisplayProperty(Position = 4)] public object Size;
+        [DisplayProperty(Position = 5)] public object VolumeName;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -369,12 +369,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_WMISetting", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object BuildVersion;
-        [DefaultDisplayProperty(1)] public object Caption;
-        [DefaultDisplayProperty(2)] public object DatabaseDirectory;
-        [DefaultDisplayProperty(3)] public object EnableEvents;
-        [DefaultDisplayProperty(4)] public object LoggingLevel;
-        [DefaultDisplayProperty(5)] public object SettingID;
+        [DisplayProperty(Position = 0)] public object BuildVersion;
+        [DisplayProperty(Position = 1)] public object Caption;
+        [DisplayProperty(Position = 2)] public object DatabaseDirectory;
+        [DisplayProperty(Position = 3)] public object EnableEvents;
+        [DisplayProperty(Position = 4)] public object LoggingLevel;
+        [DisplayProperty(Position = 5)] public object SettingID;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -386,11 +386,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PrinterConfiguration", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object PrintQuality;
-        [DefaultDisplayProperty(1)] public object DriverVersion;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object PaperSize;
-        [DefaultDisplayProperty(4)] public object Caption;
+        [DisplayProperty(Position = 0)] public object PrintQuality;
+        [DisplayProperty(Position = 1)] public object DriverVersion;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object PaperSize;
+        [DisplayProperty(Position = 4)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -402,9 +402,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PageFileUsage", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object PeakUsage;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object PeakUsage;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -416,10 +416,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PhysicalMemoryArray", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Model;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object MaxCapacity;
-        [DefaultDisplayProperty(3)] public object MemoryDevices;
+        [DisplayProperty(Position = 0)] public object Model;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object MaxCapacity;
+        [DisplayProperty(Position = 3)] public object MemoryDevices;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -431,12 +431,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_QuotaSetting", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object DefaultLimit;
-        [DefaultDisplayProperty(2)] public object SettingID;
-        [DefaultDisplayProperty(3)] public object State;
-        [DefaultDisplayProperty(4)] public object VolumePath;
-        [DefaultDisplayProperty(5)] public object DefaultWarningLimit;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object DefaultLimit;
+        [DisplayProperty(Position = 2)] public object SettingID;
+        [DisplayProperty(Position = 3)] public object State;
+        [DisplayProperty(Position = 4)] public object VolumePath;
+        [DisplayProperty(Position = 5)] public object DefaultWarningLimit;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -448,9 +448,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Msft_CliAlias", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object FriendlyName;
-        [DefaultDisplayProperty(1)] public object PWhere;
-        [DefaultDisplayProperty(2)] public object Target;
+        [DisplayProperty(Position = 0)] public object FriendlyName;
+        [DisplayProperty(Position = 1)] public object PWhere;
+        [DisplayProperty(Position = 2)] public object Target;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -462,11 +462,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_DMAChannel", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object AddressSize;
-        [DefaultDisplayProperty(1)] public object DMAChannel;
-        [DefaultDisplayProperty(2)] public object MaxTransferSize;
-        [DefaultDisplayProperty(3)] public object Name;
-        [DefaultDisplayProperty(4)] public object Port;
+        [DisplayProperty(Position = 0)] public object AddressSize;
+        [DisplayProperty(Position = 1)] public object DMAChannel;
+        [DisplayProperty(Position = 2)] public object MaxTransferSize;
+        [DisplayProperty(Position = 3)] public object Name;
+        [DisplayProperty(Position = 4)] public object Port;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -478,20 +478,20 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NTLogEvent", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Category;
-        [DefaultDisplayProperty(1)] public object CategoryString;
-        [DefaultDisplayProperty(2)] public object EventCode;
-        [DefaultDisplayProperty(3)] public object EventIdentifier;
-        [DefaultDisplayProperty(4)] public object TypeEvent;
-        [DefaultDisplayProperty(5)] public object InsertionStrings;
-        [DefaultDisplayProperty(6)] public object LogFile;
-        [DefaultDisplayProperty(7)] public object Message;
-        [DefaultDisplayProperty(8)] public object RecordNumber;
-        [DefaultDisplayProperty(9)] public object SourceName;
-        [DefaultDisplayProperty(10)] public object TimeGenerated;
-        [DefaultDisplayProperty(11)] public object TimeWritten;
-        [DefaultDisplayProperty(12)] public object Type;
-        [DefaultDisplayProperty(13)] public object UserName;
+        [DisplayProperty(Position = 0)] public object Category;
+        [DisplayProperty(Position = 1)] public object CategoryString;
+        [DisplayProperty(Position = 2)] public object EventCode;
+        [DisplayProperty(Position = 3)] public object EventIdentifier;
+        [DisplayProperty(Position = 4)] public object TypeEvent;
+        [DisplayProperty(Position = 5)] public object InsertionStrings;
+        [DisplayProperty(Position = 6)] public object LogFile;
+        [DisplayProperty(Position = 7)] public object Message;
+        [DisplayProperty(Position = 8)] public object RecordNumber;
+        [DisplayProperty(Position = 9)] public object SourceName;
+        [DisplayProperty(Position = 10)] public object TimeGenerated;
+        [DisplayProperty(Position = 11)] public object TimeWritten;
+        [DisplayProperty(Position = 12)] public object Type;
+        [DisplayProperty(Position = 13)] public object UserName;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -503,12 +503,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_TemperatureProbe", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object CurrentReading;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Description;
-        [DefaultDisplayProperty(3)] public object MinReadable;
-        [DefaultDisplayProperty(4)] public object MaxReadable;
-        [DefaultDisplayProperty(5)] public object Status;
+        [DisplayProperty(Position = 0)] public object CurrentReading;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Description;
+        [DisplayProperty(Position = 3)] public object MinReadable;
+        [DisplayProperty(Position = 4)] public object MaxReadable;
+        [DisplayProperty(Position = 5)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -520,12 +520,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_IRQResource", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Hardware;
-        [DefaultDisplayProperty(1)] public object IRQNumber;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object Shareable;
-        [DefaultDisplayProperty(4)] public object TriggerLevel;
-        [DefaultDisplayProperty(5)] public object TriggerType;
+        [DisplayProperty(Position = 0)] public object Hardware;
+        [DisplayProperty(Position = 1)] public object IRQNumber;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object Shareable;
+        [DisplayProperty(Position = 4)] public object TriggerLevel;
+        [DisplayProperty(Position = 5)] public object TriggerType;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -537,10 +537,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_OnBoardDevice", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DeviceType;
-        [DefaultDisplayProperty(1)] public object SerialNumber;
-        [DefaultDisplayProperty(2)] public object Enabled;
-        [DefaultDisplayProperty(3)] public object Description;
+        [DisplayProperty(Position = 0)] public object DeviceType;
+        [DisplayProperty(Position = 1)] public object SerialNumber;
+        [DisplayProperty(Position = 2)] public object Enabled;
+        [DisplayProperty(Position = 3)] public object Description;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -552,13 +552,13 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemSlot", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object SlotDesignation;
-        [DefaultDisplayProperty(1)] public object Tag;
-        [DefaultDisplayProperty(2)] public object SupportsHotPlug;
-        [DefaultDisplayProperty(3)] public object Status;
-        [DefaultDisplayProperty(4)] public object Shared;
-        [DefaultDisplayProperty(5)] public object PMESignal;
-        [DefaultDisplayProperty(6)] public object MaxDataWidth;
+        [DisplayProperty(Position = 0)] public object SlotDesignation;
+        [DisplayProperty(Position = 1)] public object Tag;
+        [DisplayProperty(Position = 2)] public object SupportsHotPlug;
+        [DisplayProperty(Position = 3)] public object Status;
+        [DisplayProperty(Position = 4)] public object Shared;
+        [DisplayProperty(Position = 5)] public object PMESignal;
+        [DisplayProperty(Position = 6)] public object MaxDataWidth;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -570,12 +570,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_LogonSession", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object AuthenticationPackage;
-        [DefaultDisplayProperty(1)] public object LogonId;
-        [DefaultDisplayProperty(2)] public object LogonType;
-        [DefaultDisplayProperty(3)] public object Name;
-        [DefaultDisplayProperty(4)] public object StartTime;
-        [DefaultDisplayProperty(5)] public object Status;
+        [DisplayProperty(Position = 0)] public object AuthenticationPackage;
+        [DisplayProperty(Position = 1)] public object LogonId;
+        [DisplayProperty(Position = 2)] public object LogonType;
+        [DisplayProperty(Position = 3)] public object Name;
+        [DisplayProperty(Position = 4)] public object StartTime;
+        [DisplayProperty(Position = 5)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -587,12 +587,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PerfRawData_PerfNet_Server", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object LogonPerSec;
-        [DefaultDisplayProperty(2)] public object LogonTotal;
-        [DefaultDisplayProperty(3)] public object Name;
-        [DefaultDisplayProperty(4)] public object ServerSessions;
-        [DefaultDisplayProperty(5)] public object WorkItemShortages;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object LogonPerSec;
+        [DisplayProperty(Position = 2)] public object LogonTotal;
+        [DisplayProperty(Position = 3)] public object Name;
+        [DisplayProperty(Position = 4)] public object ServerSessions;
+        [DisplayProperty(Position = 5)] public object WorkItemShortages;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -604,11 +604,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemDriver", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DisplayName;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object State;
-        [DefaultDisplayProperty(3)] public object Status;
-        [DefaultDisplayProperty(4)] public object Started;
+        [DisplayProperty(Position = 0)] public object DisplayName;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object State;
+        [DisplayProperty(Position = 3)] public object Status;
+        [DisplayProperty(Position = 4)] public object Started;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -620,10 +620,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Group", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object Domain;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object SID;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object Domain;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object SID;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -635,9 +635,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Share", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Name;
-        [DefaultDisplayProperty(1)] public object Path;
-        [DefaultDisplayProperty(2)] public object Description;
+        [DisplayProperty(Position = 0)] public object Name;
+        [DisplayProperty(Position = 1)] public object Path;
+        [DisplayProperty(Position = 2)] public object Description;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -649,9 +649,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_StartupCommand", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Command;
-        [DefaultDisplayProperty(1)] public object User;
-        [DefaultDisplayProperty(2)] public object Caption;
+        [DisplayProperty(Position = 0)] public object Command;
+        [DisplayProperty(Position = 1)] public object User;
+        [DisplayProperty(Position = 2)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -663,10 +663,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "WIN32_NetworkClient", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object InstallDate;
-        [DefaultDisplayProperty(2)] public object Manufacturer;
-        [DefaultDisplayProperty(3)] public object Name;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object InstallDate;
+        [DisplayProperty(Position = 2)] public object Manufacturer;
+        [DisplayProperty(Position = 3)] public object Name;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -678,15 +678,15 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_QuickFixEngineering", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Description;
-        [DefaultDisplayProperty(1)] public object FixComments;
-        [DefaultDisplayProperty(2)] public object HotFixID;
-        [DefaultDisplayProperty(3)] public object InstallDate;
-        [DefaultDisplayProperty(4)] public object InstalledBy;
-        [DefaultDisplayProperty(5)] public object InstalledOn;
-        [DefaultDisplayProperty(6)] public object Name;
-        [DefaultDisplayProperty(7)] public object ServicePackInEffect;
-        [DefaultDisplayProperty(8)] public object Status;
+        [DisplayProperty(Position = 0)] public object Description;
+        [DisplayProperty(Position = 1)] public object FixComments;
+        [DisplayProperty(Position = 2)] public object HotFixID;
+        [DisplayProperty(Position = 3)] public object InstallDate;
+        [DisplayProperty(Position = 4)] public object InstalledBy;
+        [DisplayProperty(Position = 5)] public object InstalledOn;
+        [DisplayProperty(Position = 6)] public object Name;
+        [DisplayProperty(Position = 7)] public object ServicePackInEffect;
+        [DisplayProperty(Position = 8)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -698,12 +698,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_SCSIController", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DriverName;
-        [DefaultDisplayProperty(1)] public object Manufacturer;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object ProtocolSupported;
-        [DefaultDisplayProperty(4)] public object Status;
-        [DefaultDisplayProperty(5)] public object StatusInfo;
+        [DisplayProperty(Position = 0)] public object DriverName;
+        [DisplayProperty(Position = 1)] public object Manufacturer;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object ProtocolSupported;
+        [DisplayProperty(Position = 4)] public object Status;
+        [DisplayProperty(Position = 5)] public object StatusInfo;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -715,12 +715,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_UninterruptiblePowerSupply", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DeviceID;
-        [DefaultDisplayProperty(1)] public object EstimatedRunTime;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object TimeOnBackup;
-        [DefaultDisplayProperty(4)] public object UPSPort;
-        [DefaultDisplayProperty(5)] public object Caption;
+        [DisplayProperty(Position = 0)] public object DeviceID;
+        [DisplayProperty(Position = 1)] public object EstimatedRunTime;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object TimeOnBackup;
+        [DisplayProperty(Position = 4)] public object UPSPort;
+        [DisplayProperty(Position = 5)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -732,9 +732,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_DeviceMemoryAddress", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object MemoryType;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Status;
+        [DisplayProperty(Position = 0)] public object MemoryType;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -746,12 +746,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_OperatingSystem", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object SystemDirectory;
-        [DefaultDisplayProperty(1)] public object Organization;
-        [DefaultDisplayProperty(2)] public object BuildNumber;
-        [DefaultDisplayProperty(3)] public object RegisteredUser;
-        [DefaultDisplayProperty(4)] public object SerialNumber;
-        [DefaultDisplayProperty(5)] public object Version;
+        [DisplayProperty(Position = 0)] public object SystemDirectory;
+        [DisplayProperty(Position = 1)] public object Organization;
+        [DisplayProperty(Position = 2)] public object BuildNumber;
+        [DisplayProperty(Position = 3)] public object RegisteredUser;
+        [DisplayProperty(Position = 4)] public object SerialNumber;
+        [DisplayProperty(Position = 5)] public object Version;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -763,11 +763,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_ComputerSystemProduct", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object IdentifyingNumber;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Vendor;
-        [DefaultDisplayProperty(3)] public object Version;
-        [DefaultDisplayProperty(4)] public object Caption;
+        [DisplayProperty(Position = 0)] public object IdentifyingNumber;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Vendor;
+        [DisplayProperty(Position = 3)] public object Version;
+        [DisplayProperty(Position = 4)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -779,10 +779,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_LogicalMemoryConfiguration", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Name;
-        [DefaultDisplayProperty(1)] public object TotalVirtualMemory;
-        [DefaultDisplayProperty(2)] public object TotalPhysicalMemory;
-        [DefaultDisplayProperty(3)] public object TotalPageFileSpace;
+        [DisplayProperty(Position = 0)] public object Name;
+        [DisplayProperty(Position = 1)] public object TotalVirtualMemory;
+        [DisplayProperty(Position = 2)] public object TotalPhysicalMemory;
+        [DisplayProperty(Position = 3)] public object TotalPageFileSpace;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -794,13 +794,13 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkAdapterConfiguration", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DHCPEnabled;
-        [DefaultDisplayProperty(1)] public object IPAddress;
-        [DefaultDisplayProperty(2)] public object DefaultIPGateway;
-        [DefaultDisplayProperty(3)] public object DNSDomain;
-        [DefaultDisplayProperty(4)] public object ServiceName;
-        [DefaultDisplayProperty(5)] public object Description;
-        [DefaultDisplayProperty(6)] public object Index;
+        [DisplayProperty(Position = 0)] public object DHCPEnabled;
+        [DisplayProperty(Position = 1)] public object IPAddress;
+        [DisplayProperty(Position = 2)] public object DefaultIPGateway;
+        [DisplayProperty(Position = 3)] public object DNSDomain;
+        [DisplayProperty(Position = 4)] public object ServiceName;
+        [DisplayProperty(Position = 5)] public object Description;
+        [DisplayProperty(Position = 6)] public object Index;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -812,13 +812,13 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkAdapter", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object ServiceName;
-        [DefaultDisplayProperty(1)] public object MACAddress;
-        [DefaultDisplayProperty(2)] public object AdapterType;
-        [DefaultDisplayProperty(3)] public object DeviceID;
-        [DefaultDisplayProperty(4)] public object Name;
-        [DefaultDisplayProperty(5)] public object NetworkAddresses;
-        [DefaultDisplayProperty(6)] public object Speed;
+        [DisplayProperty(Position = 0)] public object ServiceName;
+        [DisplayProperty(Position = 1)] public object MACAddress;
+        [DisplayProperty(Position = 2)] public object AdapterType;
+        [DisplayProperty(Position = 3)] public object DeviceID;
+        [DisplayProperty(Position = 4)] public object Name;
+        [DisplayProperty(Position = 5)] public object NetworkAddresses;
+        [DisplayProperty(Position = 6)] public object Speed;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -830,15 +830,15 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "WIN32_CACHEMEMORY", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object BlockSize;
-        [DefaultDisplayProperty(1)] public object CacheSpeed;
-        [DefaultDisplayProperty(2)] public object CacheType;
-        [DefaultDisplayProperty(3)] public object DeviceID;
-        [DefaultDisplayProperty(4)] public object InstalledSize;
-        [DefaultDisplayProperty(5)] public object Level;
-        [DefaultDisplayProperty(6)] public object MaxCacheSize;
-        [DefaultDisplayProperty(7)] public object NumberOfBlocks;
-        [DefaultDisplayProperty(8)] public object Status;
+        [DisplayProperty(Position = 0)] public object BlockSize;
+        [DisplayProperty(Position = 1)] public object CacheSpeed;
+        [DisplayProperty(Position = 2)] public object CacheType;
+        [DisplayProperty(Position = 3)] public object DeviceID;
+        [DisplayProperty(Position = 4)] public object InstalledSize;
+        [DisplayProperty(Position = 5)] public object Level;
+        [DisplayProperty(Position = 6)] public object MaxCacheSize;
+        [DisplayProperty(Position = 7)] public object NumberOfBlocks;
+        [DisplayProperty(Position = 8)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -850,12 +850,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_SoftwareElement", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Path;
-        [DefaultDisplayProperty(3)] public object SerialNumber;
-        [DefaultDisplayProperty(4)] public object SoftwareElementID;
-        [DefaultDisplayProperty(5)] public object Version;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Path;
+        [DisplayProperty(Position = 3)] public object SerialNumber;
+        [DisplayProperty(Position = 4)] public object SoftwareElementID;
+        [DisplayProperty(Position = 5)] public object Version;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -867,10 +867,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkConnection", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object LocalName;
-        [DefaultDisplayProperty(1)] public object RemoteName;
-        [DefaultDisplayProperty(2)] public object ConnectionState;
-        [DefaultDisplayProperty(3)] public object Status;
+        [DisplayProperty(Position = 0)] public object LocalName;
+        [DisplayProperty(Position = 1)] public object RemoteName;
+        [DisplayProperty(Position = 2)] public object ConnectionState;
+        [DisplayProperty(Position = 3)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -882,12 +882,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_ProcessXXX", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object ThreadCount;
-        [DefaultDisplayProperty(1)] public object HandleCount;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object Priority;
-        [DefaultDisplayProperty(4)] public object ProcessId;
-        [DefaultDisplayProperty(5)] public object WorkingSetSize;
+        [DisplayProperty(Position = 0)] public object ThreadCount;
+        [DisplayProperty(Position = 1)] public object HandleCount;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object Priority;
+        [DisplayProperty(Position = 4)] public object ProcessId;
+        [DisplayProperty(Position = 5)] public object WorkingSetSize;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -899,11 +899,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Product", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object IdentifyingNumber;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Vendor;
-        [DefaultDisplayProperty(3)] public object Version;
-        [DefaultDisplayProperty(4)] public object Caption;
+        [DisplayProperty(Position = 0)] public object IdentifyingNumber;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Vendor;
+        [DisplayProperty(Position = 3)] public object Version;
+        [DisplayProperty(Position = 4)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -915,12 +915,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_UserAccount", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object AccountType;
-        [DefaultDisplayProperty(1)] public object Caption;
-        [DefaultDisplayProperty(2)] public object Domain;
-        [DefaultDisplayProperty(3)] public object SID;
-        [DefaultDisplayProperty(4)] public object FullName;
-        [DefaultDisplayProperty(5)] public object Name;
+        [DisplayProperty(Position = 0)] public object AccountType;
+        [DisplayProperty(Position = 1)] public object Caption;
+        [DisplayProperty(Position = 2)] public object Domain;
+        [DisplayProperty(Position = 3)] public object SID;
+        [DisplayProperty(Position = 4)] public object FullName;
+        [DisplayProperty(Position = 5)] public object Name;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -932,11 +932,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Process", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object ProcessId;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object HandleCount;
-        [DefaultDisplayProperty(3)] public object WorkingSetSize;
-        [DefaultDisplayProperty(4)] public object VirtualSize;
+        [DisplayProperty(Position = 0)] public object ProcessId;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object HandleCount;
+        [DisplayProperty(Position = 3)] public object WorkingSetSize;
+        [DisplayProperty(Position = 4)] public object VirtualSize;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -948,12 +948,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Service", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object ExitCode;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object ProcessId;
-        [DefaultDisplayProperty(3)] public object StartMode;
-        [DefaultDisplayProperty(4)] public object State;
-        [DefaultDisplayProperty(5)] public object Status;
+        [DisplayProperty(Position = 0)] public object ExitCode;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object ProcessId;
+        [DisplayProperty(Position = 3)] public object StartMode;
+        [DisplayProperty(Position = 4)] public object State;
+        [DisplayProperty(Position = 5)] public object Status;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -965,10 +965,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_CDROMDrive", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object Drive;
-        [DefaultDisplayProperty(2)] public object Manufacturer;
-        [DefaultDisplayProperty(3)] public object VolumeName;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object Drive;
+        [DisplayProperty(Position = 2)] public object Manufacturer;
+        [DisplayProperty(Position = 3)] public object VolumeName;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -980,11 +980,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_DiskDrive", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Partitions;
-        [DefaultDisplayProperty(1)] public object DeviceID;
-        [DefaultDisplayProperty(2)] public object Model;
-        [DefaultDisplayProperty(3)] public object Size;
-        [DefaultDisplayProperty(4)] public object Caption;
+        [DisplayProperty(Position = 0)] public object Partitions;
+        [DisplayProperty(Position = 1)] public object DeviceID;
+        [DisplayProperty(Position = 2)] public object Model;
+        [DisplayProperty(Position = 3)] public object Size;
+        [DisplayProperty(Position = 4)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -996,9 +996,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Environment", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object VariableValue;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object UserName;
+        [DisplayProperty(Position = 0)] public object VariableValue;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object UserName;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1010,10 +1010,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Registry", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object CurrentSize;
-        [DefaultDisplayProperty(1)] public object MaximumSize;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object Caption;
+        [DisplayProperty(Position = 0)] public object CurrentSize;
+        [DisplayProperty(Position = 1)] public object MaximumSize;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1025,11 +1025,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PortConnector", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Tag;
-        [DefaultDisplayProperty(1)] public object ConnectorType;
-        [DefaultDisplayProperty(2)] public object SerialNumber;
-        [DefaultDisplayProperty(3)] public object ExternalReferenceDesignator;
-        [DefaultDisplayProperty(4)] public object PortType;
+        [DisplayProperty(Position = 0)] public object Tag;
+        [DisplayProperty(Position = 1)] public object ConnectorType;
+        [DisplayProperty(Position = 2)] public object SerialNumber;
+        [DisplayProperty(Position = 3)] public object ExternalReferenceDesignator;
+        [DisplayProperty(Position = 4)] public object PortType;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1041,12 +1041,12 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_DiskPartition", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object NumberOfBlocks;
-        [DefaultDisplayProperty(1)] public object BootPartition;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object PrimaryPartition;
-        [DefaultDisplayProperty(4)] public object Size;
-        [DefaultDisplayProperty(5)] public object Index;
+        [DisplayProperty(Position = 0)] public object NumberOfBlocks;
+        [DisplayProperty(Position = 1)] public object BootPartition;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object PrimaryPartition;
+        [DisplayProperty(Position = 4)] public object Size;
+        [DisplayProperty(Position = 5)] public object Index;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1058,11 +1058,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_IDEController", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Manufacturer;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object ProtocolSupported;
-        [DefaultDisplayProperty(3)] public object Status;
-        [DefaultDisplayProperty(4)] public object StatusInfo;
+        [DisplayProperty(Position = 0)] public object Manufacturer;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object ProtocolSupported;
+        [DisplayProperty(Position = 3)] public object Status;
+        [DisplayProperty(Position = 4)] public object StatusInfo;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1074,14 +1074,14 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_Directory", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Hidden;
-        [DefaultDisplayProperty(1)] public object Archive;
-        [DefaultDisplayProperty(2)] public object EightDotThreeFileName;
-        [DefaultDisplayProperty(3)] public object FileSize;
-        [DefaultDisplayProperty(4)] public object Name;
-        [DefaultDisplayProperty(5)] public object Compressed;
-        [DefaultDisplayProperty(6)] public object Encrypted;
-        [DefaultDisplayProperty(7)] public object Readable;
+        [DisplayProperty(Position = 0)] public object Hidden;
+        [DisplayProperty(Position = 1)] public object Archive;
+        [DisplayProperty(Position = 2)] public object EightDotThreeFileName;
+        [DisplayProperty(Position = 3)] public object FileSize;
+        [DisplayProperty(Position = 4)] public object Name;
+        [DisplayProperty(Position = 5)] public object Compressed;
+        [DisplayProperty(Position = 6)] public object Encrypted;
+        [DisplayProperty(Position = 7)] public object Readable;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1093,9 +1093,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "WIN32_DCOMApplication", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object AppID;
-        [DefaultDisplayProperty(1)] public object InstallDate;
-        [DefaultDisplayProperty(2)] public object Name;
+        [DisplayProperty(Position = 0)] public object AppID;
+        [DisplayProperty(Position = 1)] public object InstallDate;
+        [DisplayProperty(Position = 2)] public object Name;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1107,10 +1107,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemAccount", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Caption;
-        [DefaultDisplayProperty(1)] public object Domain;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object SID;
+        [DisplayProperty(Position = 0)] public object Caption;
+        [DisplayProperty(Position = 1)] public object Domain;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object SID;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1122,15 +1122,15 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "CIM_DataFile", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Compressed;
-        [DefaultDisplayProperty(1)] public object Encrypted;
-        [DefaultDisplayProperty(2)] public object Size;
-        [DefaultDisplayProperty(3)] public object Hidden;
-        [DefaultDisplayProperty(4)] public object Name;
-        [DefaultDisplayProperty(5)] public object Readable;
-        [DefaultDisplayProperty(6)] public object System;
-        [DefaultDisplayProperty(7)] public object Version;
-        [DefaultDisplayProperty(8)] public object Writeable;
+        [DisplayProperty(Position = 0)] public object Compressed;
+        [DisplayProperty(Position = 1)] public object Encrypted;
+        [DisplayProperty(Position = 2)] public object Size;
+        [DisplayProperty(Position = 3)] public object Hidden;
+        [DisplayProperty(Position = 4)] public object Name;
+        [DisplayProperty(Position = 5)] public object Readable;
+        [DisplayProperty(Position = 6)] public object System;
+        [DisplayProperty(Position = 7)] public object Version;
+        [DisplayProperty(Position = 8)] public object Writeable;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1142,11 +1142,11 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "WIN32_DESKTOP", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Name;
-        [DefaultDisplayProperty(1)] public object ScreenSaverActive;
-        [DefaultDisplayProperty(2)] public object ScreenSaverSecure;
-        [DefaultDisplayProperty(3)] public object ScreenSaverTimeout;
-        [DefaultDisplayProperty(4)] public object SettingID;
+        [DisplayProperty(Position = 0)] public object Name;
+        [DisplayProperty(Position = 1)] public object ScreenSaverActive;
+        [DisplayProperty(Position = 2)] public object ScreenSaverSecure;
+        [DisplayProperty(Position = 3)] public object ScreenSaverTimeout;
+        [DisplayProperty(Position = 4)] public object SettingID;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1158,10 +1158,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_BootConfiguration", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object BootDirectory;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object SettingID;
-        [DefaultDisplayProperty(3)] public object Caption;
+        [DisplayProperty(Position = 0)] public object BootDirectory;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object SettingID;
+        [DisplayProperty(Position = 3)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1173,9 +1173,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PageFileSetting", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object MaximumSize;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object Caption;
+        [DisplayProperty(Position = 0)] public object MaximumSize;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object Caption;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1187,13 +1187,13 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_PrintJob", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object Document;
-        [DefaultDisplayProperty(1)] public object JobId;
-        [DefaultDisplayProperty(2)] public object JobStatus;
-        [DefaultDisplayProperty(3)] public object Owner;
-        [DefaultDisplayProperty(4)] public object Priority;
-        [DefaultDisplayProperty(5)] public object Size;
-        [DefaultDisplayProperty(6)] public object Name;
+        [DisplayProperty(Position = 0)] public object Document;
+        [DisplayProperty(Position = 1)] public object JobId;
+        [DisplayProperty(Position = 2)] public object JobStatus;
+        [DisplayProperty(Position = 3)] public object Owner;
+        [DisplayProperty(Position = 4)] public object Priority;
+        [DisplayProperty(Position = 5)] public object Size;
+        [DisplayProperty(Position = 6)] public object Name;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1205,10 +1205,10 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_NTEventlogFile", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object FileSize;
-        [DefaultDisplayProperty(1)] public object LogfileName;
-        [DefaultDisplayProperty(2)] public object Name;
-        [DefaultDisplayProperty(3)] public object NumberOfRecords;
+        [DisplayProperty(Position = 0)] public object FileSize;
+        [DisplayProperty(Position = 1)] public object LogfileName;
+        [DisplayProperty(Position = 2)] public object Name;
+        [DisplayProperty(Position = 3)] public object NumberOfRecords;
     }
 
     [FormatProxy(typeof(CimInstance), When = typeof(When))]
@@ -1220,9 +1220,9 @@ namespace PSMore.DefaultFormats
                 => CimInstanceBindingRestrictions.Applies(o, "Win32_OSRecoveryConfiguration", "root/cimv2");
         }
 
-        [DefaultDisplayProperty(0)] public object DebugFilePath;
-        [DefaultDisplayProperty(1)] public object Name;
-        [DefaultDisplayProperty(2)] public object SettingID;
+        [DisplayProperty(Position = 0)] public object DebugFilePath;
+        [DisplayProperty(Position = 1)] public object Name;
+        [DisplayProperty(Position = 2)] public object SettingID;
     }
 
 }

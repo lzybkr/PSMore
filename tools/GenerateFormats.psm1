@@ -1,4 +1,27 @@
 
+function GenerateTypeData
+{
+    param($TypeData, $StringBuilder)
+
+    $n = 0
+    $sawDefault = $null -eq $TypeData.DefaultDisplayProperty
+    foreach ($p in $TypeData.DefaultDisplayPropertySet.ReferencedProperties)
+    {
+        $d = if ($p -eq $TypeData.DefaultDisplayProperty) {
+            $sawDefault = $true
+            ", Default = true"
+        } else { "" }
+        $null = $StringBuilder.Append("
+        [DisplayProperty(Position = $n$d)] public object $p;")
+        $n += 1
+    }
+
+    if (!$sawDefault) {
+        $null = $StringBuilder.Append("
+        [DisplayProperty(Default = true)] public object $($TypeData.DefaultDisplayProperty);")
+    }
+}
+
 function ConvertCimInstance
 {
     param(
@@ -18,15 +41,51 @@ function ConvertCimInstance
                 => CimInstanceBindingRestrictions.Applies(o, ""$Class"", ""$Namespace"");
         }
 ")
-    $n = 0
-    foreach ($p in $TypeData.DefaultDisplayPropertySet.ReferencedProperties)
-    {
-        $null = $StringBuilder.Append("
-        [DefaultDisplayProperty($n)] public object $p;")
-        $n += 1
-    }
+
+    GenerateTypeData -TypeData $TypeData -StringBuilder $StringBuilder
 
     $null = $StringBuilder.Append("
+    }
+")
+}
+
+function ConvertDotNetType
+{
+    param(
+        [System.Management.Automation.Runspaces.TypeData]$TypeData,
+        [System.Collections.Generic.Dictionary[string,System.Text.StringBuilder]]$Builders
+    )
+
+    $endNs = $TypeData.TypeName.LastIndexOf(".")
+    $Namespace = $TypeData.TypeName.Substring(0, $endNs)
+    $Class = $TypeData.TypeName.Substring($endNs + 1)
+
+    $sb = $Builders[$Namespace]
+    if ($null -eq $sb)
+    {
+        $sb = [System.Text.StringBuilder]::new()
+        $Builders[$Namespace] = $sb
+        $null = $sb.Append("using PSMore.FormatAttributes;
+using $Namespace;
+
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedMember.Global
+#pragma warning disable CS0169 // Ignore internal fields never assigned
+#pragma warning disable CS0649 // Ignore internal fields never assigned
+
+namespace PSMore.DefaultFormats
+{
+")
+    }
+
+    $null = $sb.Append("
+    [FormatProxy(typeof($Class))]
+    internal abstract class ${Class}FormatProxy
+    {")
+
+    GenerateTypeData -TypeData $TypeData -StringBuilder $sb
+
+    $null = $sb.Append("
     }
 ")
 }
@@ -42,6 +101,7 @@ function Convert-TypeData
     begin
     {
         $cimInstanceFormatters = [System.Text.StringBuilder]::new()
+        $dotNetBuilders = [System.Collections.Generic.Dictionary[string, System.Text.StringBuilder]]::new()
     }
 
     process
@@ -57,13 +117,12 @@ function Convert-TypeData
                 continue
             }
 
-            # Skip
+            # Skip some things that we won't take a dependency on.
             if ($t.TypeName -match "System.Management.ManagementObject.*") {continue}
             if ($t.TypeName -notmatch "^System") { continue }
 
-            $t.TypeName
+            ConvertDotNetType -TypeData $t -Builders $dotNetBuilders
         }
-
     }
 
     end
@@ -97,6 +156,16 @@ $cimInstanceFormatters
 }
 "@ | Out-File -Encoding ascii $PSScriptRoot/../src/DefaultFormats/Microsoft.Management.Infrastructure.Formats.cs
 
+        foreach ($pair in $dotNetBuilders.GetEnumerator())
+        {
+            $sb = $pair.Value
+            $null = $sb.Append("
+}
+")
+
+            $namespace = $pair.Key
+            $sb.ToString() | Out-File -Encoding ascii "$PSScriptRoot/../src/DefaultFormats/$namespace.Formats.cs"
+        }
     }
 }
 

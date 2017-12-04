@@ -1,27 +1,23 @@
-
 using PSMore.FormatAttributes;
 using System.Diagnostics;
 
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedMember.Global
+#pragma warning disable CS0169 // Ignore internal fields never assigned
 #pragma warning disable CS0649 // Ignore internal fields never assigned
 
 namespace PSMore.DefaultFormats
 {
+
     [FormatProxy(typeof(Process))]
     internal abstract class ProcessFormatProxy
     {
-        [DefaultDisplayProperty(4)]
-        public string Name;
-
-        [DefaultDisplayProperty(0)]
-        public int Id;
-
-        [DefaultDisplayProperty(1)]
-        public int Handles;
-
-        [DefaultDisplayProperty(2)]
-        public double CPU;
-
-        [DefaultDisplayProperty(3)]
-        public int SI;
+        [DisplayProperty(Position = 0)] public object Id;
+        [DisplayProperty(Position = 1)] public object Handles;
+        [DisplayProperty(Position = 2)] public object CPU;
+        [DisplayProperty(Position = 3)] public object SI;
+        [DisplayProperty(Position = 4)] public object Name;
     }
+
 }
+

@@ -20,8 +20,9 @@ namespace PSMore.FormatAttributes
     }
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class DefaultDisplayPropertyAttribute : Attribute
+    public class DisplayPropertyAttribute : Attribute
     {
-        public DefaultDisplayPropertyAttribute(int position) { }
+        public int Position { get; set; }
+        public bool Default { get; set; }
     }
 }
