@@ -36,18 +36,29 @@ namespace PSMore.Formatting
                     if (cad.ConstructorArguments.Count != 1) continue;
                     var proxyOf = cad.ConstructorArguments[0].Value as Type;
                     if (proxyOf == null) continue;
+
+                    ICondition when = null;
+                    if (cad.NamedArguments != null && cad.NamedArguments.Count == 1)
+                    {
+                        if (!cad.NamedArguments[0].MemberName.Equals("When")) continue;
+                        var whenType = cad.NamedArguments[0].TypedValue.Value as Type;
+                        if (whenType == null) continue;
+                        when = Activator.CreateInstance(whenType) as ICondition;
+                        if (when == null) continue;
+                    }
+
                     if (!FormatDefinitions.TryGetValue(proxyOf, out var directives))
                     {
                         directives = new List<FormatDirective>();
                         FormatDefinitions.Add(proxyOf, directives);
                     }
 
-                    FormatGenerator.Generate(type, directives);
+                    FormatGenerator.Generate(type, when, directives);
                 }
             }
         }
 
-        public static FormatDirective FindDirective(FormatSelectionCriteria criteria)
+        public static FormatDirective FindDirective(FormatSelectionCriteria criteria, object o)
         {
             var type = criteria.Type;
 
@@ -78,6 +89,9 @@ namespace PSMore.Formatting
                                     //if (!(directive is TableFormat)) continue;
                                     break;
                             }
+
+                            if (directive.When != null && !directive.When.Applies(o))
+                                continue;
 
                             if (!string.IsNullOrEmpty(criteria.Name) &&
                                 !criteria.Name.Equals(directive.Name, StringComparison.OrdinalIgnoreCase))

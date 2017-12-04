@@ -22,35 +22,51 @@ namespace PSMore.Formatting
         {
             if (args.Length == 1)
             {
-                Debug.Assert(this == Instance0, "Use Instance0 when passing 0 args");
-
-                var criteria = new FormatSelectionCriteria();
-                if (args[0] is PSObject psobj)
-                {
-                    criteria.Type = psobj.BaseObject.GetType();
-                }
-                else
-                {
-                    criteria.Type = args[0].GetType();
-                }
-
-                var directive = FormatSelector.FindDirective(criteria) ?? FormatGenerator.Generate(criteria.Type);
-
-                return directive.Bind(parameters[0], args[0].GetType(), Expression.Constant(directive), returnLabel);
+                Debug.Assert(this == Instance0, "Use Instance0 when passing 1 args");
+                return BindAfterFindingDirective(args[0], parameters[0], returnLabel);
             }
 
             if (args.Length == 2)
             {
-                Debug.Assert(this == Instance1, "Use Instance0 when passing 0 args");
-
-                switch (args[1])
-                {
-                    case ListFormat listFormat:
-                        return listFormat.Bind(parameters[0], args[0].GetType(), parameters[1], returnLabel);
-                }
+                Debug.Assert(this == Instance1, "Use Instance0 when passing 2 args");
+                return BindWithDirective(args[1] as FormatDirective, parameters[0], parameters[1], returnLabel);
             }
 
             throw new Exception();
+        }
+
+        private static Expression BindWithDirective(
+            FormatDirective directive,
+            Expression toFormatExpr,
+            Expression directiveExpr,
+            LabelTarget returnLabel)
+        {
+            switch (directive)
+            {
+                case ListFormat listFormat:
+                {
+                    return listFormat.Bind(toFormatExpr, directiveExpr, returnLabel);
+                }
+            }
+            throw new Exception();
+        }
+
+        private static Expression BindAfterFindingDirective(
+            object toFormat,
+            Expression toFormatExpr,
+            LabelTarget returnLabel)
+        {
+            var criteria = new FormatSelectionCriteria
+            {
+                Type = toFormat is PSObject psobj
+                    ? psobj.BaseObject.GetType()
+                    : toFormat.GetType()
+            };
+
+            var directive = FormatSelector.FindDirective(criteria, toFormat)
+                ?? FormatGenerator.Generate(criteria.Type);
+
+            return directive.Bind(toFormatExpr, Expression.Constant(directive), returnLabel);
         }
     }
 

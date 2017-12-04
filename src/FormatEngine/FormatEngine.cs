@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Management.Automation;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace PSMore.Formatting
@@ -35,10 +36,44 @@ namespace PSMore.Formatting
 
     public abstract class FormatDirective
     {
-        protected FormatDirective(string name) { Name = name; }
-        public string Name { get; }
+        protected FormatDirective(string name, ICondition when)
+        {
+            Name = name;
+            When = when;
+        }
 
-        internal abstract Expression Bind(Expression toFormat, Type toFormatType, Expression directive, LabelTarget returnLabel);
+        public override bool Equals(object obj)
+        {
+            var other = obj as FormatDirective;
+            return other != null
+                && string.Equals(Name, other.Name)
+                && object.ReferenceEquals(When, other.When);
+        }
+
+        public override int GetHashCode()
+        {
+            var n1 = Name != null ? Name.GetHashCode() : 0;
+            var n2 = When != null ? When.GetHashCode() : 0;
+            return Utils.CombineHashCodes(n1, n2);
+        }
+
+        public string Name { get; }
+        public ICondition When { get; }
+
+        internal abstract Expression Bind(Expression toFormat, Expression directive, LabelTarget returnLabel);
+
+        protected Expression GetAppliesCall(Expression directive, Expression toFormat)
+        {
+            return Expression.Call(Expression.Constant(this), FormatApplies, directive, toFormat);
+        }
+
+        private static readonly MethodInfo FormatApplies =
+            typeof(FormatDirective).GetMethod(nameof(Applies), BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private bool Applies(FormatDirective other, object obj)
+        {
+            return this.Equals(other) && (When == null || When.Applies(obj));
+        }
     }
 
 }

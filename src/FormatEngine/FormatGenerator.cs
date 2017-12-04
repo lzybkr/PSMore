@@ -7,13 +7,12 @@ using PSMore.FormatAttributes;
 
 namespace PSMore.Formatting
 {
-    class FormatGenerator
+    static class FormatGenerator
     {
         public static FormatDirective Generate(Type type)
         {
             return new FormatToString();
         }
-
 
         struct OrderedProperty
         {
@@ -21,7 +20,7 @@ namespace PSMore.Formatting
             public int Position;
         }
 
-        public static void Generate(Type type, List<FormatDirective> directives)
+        public static void Generate(Type type, ICondition when, List<FormatDirective> directives)
         {
             List<OrderedProperty> defaultProperties = new List<OrderedProperty>();
 
@@ -50,8 +49,8 @@ namespace PSMore.Formatting
                 }
             }
 
-            directives.Add(
-                new ListFormat(defaultProperties.OrderBy(op => op.Position).Select(op => new ListEntry(op.Name))));
+            var sortedEntries = defaultProperties.OrderBy(op => op.Position).Select(op => new ListEntry(op.Name));
+            directives.Add(new ListFormat(sortedEntries, when));
         }
     }
 }

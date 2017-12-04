@@ -42,14 +42,22 @@ namespace PSMore.Formatting
 
     public class ListFormat : FormatDirective
     {
-        public ListFormat(IEnumerable<ListEntry> entries = null, string name = "Default")
-            : base(name)
+        public ListFormat(
+            IEnumerable<ListEntry> entries = null,
+            ICondition when = null,
+            string name = "Default"
+        )
+            : base(name, when)
         {
             Entries = new ReadOnlyCollection<ListEntry>(entries?.ToArray() ?? Array.Empty<ListEntry>());
         }
 
-        public ListFormat(object[] properties, string name = "Default")
-            : base(name)
+        public ListFormat(
+            object[] properties,
+            ICondition when = null,
+            string name = "Default"
+        )
+            : base(name, when)
         {
             if (properties == null || properties.Length == 0)
                 throw new ArgumentException();
@@ -71,6 +79,31 @@ namespace PSMore.Formatting
             Entries = new ReadOnlyCollection<ListEntry>(entries);
         }
 
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(obj, this)) return true;
+
+            var other = obj as ListFormat;
+            if (Entries.Count != other?.Entries.Count) return false;
+
+            for (int i = 0; i < Entries.Count; i++)
+            {
+                if (!Entries[i].Equals(other.Entries[i])) return false;
+            }
+
+            return base.Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            int result = base.GetHashCode();
+            foreach (var entry in Entries)
+            {
+                result = Utils.CombineHashCodes(result, entry.GetHashCode());
+            }
+            return result;
+        }
+
         public ReadOnlyCollection<ListEntry> Entries { get; }
 
         private static string FormatLine(string formatExpr, string propertyName, object property)
@@ -82,10 +115,7 @@ namespace PSMore.Formatting
         private static readonly MethodInfo FormatLineMethodInfo =
             typeof(ListFormat).GetMethod(nameof(FormatLine), BindingFlags.NonPublic | BindingFlags.Static);
 
-        private static readonly MethodInfo ListFormatEquals =
-            typeof(ListFormat).GetMethod(nameof(Equals));
-
-        internal override Expression Bind(Expression toFormat, Type toFormatType, Expression directive, LabelTarget returnLabel)
+        internal override Expression Bind(Expression toFormat, Expression directive, LabelTarget returnLabel)
         {
             int maxLabel = -1;
             foreach (var entry in Entries)
@@ -106,37 +136,9 @@ namespace PSMore.Formatting
             }
 
             return Expression.IfThen(
-                Expression.AndAlso(
-                    Expression.TypeEqual(toFormat, toFormatType),
-                    Expression.Call(Expression.Constant(this), ListFormatEquals, directive)),
+                GetAppliesCall(directive, toFormat),
                 Expression.Return(returnLabel,
                     Expression.NewArrayInit(typeof(string), expressions)));
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(obj, this)) return true;
-
-            var other = obj as ListFormat;
-            if (Entries.Count != other?.Entries.Count) return false;
-
-            for (int i = 0; i < Entries.Count; i++)
-            {
-                if (!Entries[i].Equals(other.Entries[i])) return false;
-            }
-
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            var result = 0;
-
-            foreach (var entry in Entries)
-            {
-                result = Utils.CombineHashCodes(result, entry.GetHashCode());
-            }
-            return result;
         }
     }
 }
