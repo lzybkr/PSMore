@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using PSMore.FormatAttributes;
 
 namespace PSMore.Formatting
@@ -14,11 +17,43 @@ namespace PSMore.Formatting
         Table
     }
 
-    public struct FormatSelectionCriteria
+    public class FormatSelectionCriteria
     {
-        public Type Type { get; set; }
-        public string Name { get; set; }
-        public FormatStyle Style { get; set; }
+        public Type Type { get; }
+        public string Name { get; }
+        public FormatStyle Style { get; }
+        public FormatDirective Directive { get; }
+
+        public FormatSelectionCriteria(Type type, FormatStyle style = FormatStyle.Default, FormatDirective directive = null, string name = null)
+        {
+            Type = type;
+            Style = style;
+            Directive = directive;
+            Name = name;
+        }
+
+        public static Expression GetCompatibleCall(Expression criteria, FormatDirective directive, Expression toFormat)
+        {
+            return Expression.Call(criteria, CompatibleMethodInfo, Expression.Constant(directive), toFormat);
+        }
+
+        private static readonly MethodInfo CompatibleMethodInfo =
+            typeof(FormatSelectionCriteria).GetMethod(nameof(CompatibleWithDirective), BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private bool CompatibleWithDirective(FormatDirective directive, object obj)
+        {
+            if (directive.Type != Type) return false;
+            if (directive.When != null && !directive.When.Applies(obj)) return false;
+
+            switch (Style)
+            {
+                case FormatStyle.List:
+                    if (!(directive is ListFormat)) return false;
+                    break;
+            }
+
+            return Directive == null || directive.Equals(Directive);
+        }
     }
 
     class FormatSelector
@@ -53,7 +88,7 @@ namespace PSMore.Formatting
                         FormatDefinitions.Add(proxyOf, directives);
                     }
 
-                    FormatGenerator.Generate(type, when, directives);
+                    FormatGenerator.Generate(type, proxyOf, when, directives);
                 }
             }
         }

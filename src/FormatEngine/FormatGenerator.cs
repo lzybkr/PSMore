@@ -10,9 +10,9 @@ namespace PSMore.Formatting
 {
     static class FormatGenerator
     {
-        public static FormatDirective Generate(Type type)
+        public static FormatDirective Generate(FormatSelectionCriteria criteria)
         {
-            return new FormatToString();
+            return new FormatToString(criteria.Type);
         }
 
         struct OrderedProperty
@@ -22,7 +22,7 @@ namespace PSMore.Formatting
             public bool Default;
         }
 
-        public static void Generate(Type type, ICondition when, List<FormatDirective> directives)
+        public static void Generate(Type type, Type proxyOf, ICondition when, List<FormatDirective> directives)
         {
             List<OrderedProperty> defaultProperties = new List<OrderedProperty>();
 
@@ -71,7 +71,7 @@ namespace PSMore.Formatting
             }
 
             var sortedEntries = defaultProperties.OrderBy(op => op.Position).Select(op => new ListEntry(op.Name));
-            directives.Add(new ListFormat(sortedEntries, when));
+            directives.Add(new ListFormat(sortedEntries, proxyOf, when));
         }
     }
 }

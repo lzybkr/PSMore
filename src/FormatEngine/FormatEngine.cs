@@ -3,77 +3,95 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Management.Automation;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace PSMore.Formatting
 {
-    public class FormatEngine
+    public static class FormatEngine
     {
-        private static readonly CallSite<Func<CallSite, object, IEnumerable<string>>> _site0 =
-            CallSite<Func<CallSite, object, IEnumerable<string>>>.Create(FormatBinder.Instance0);
-
-        private static readonly CallSite<Func<CallSite, object, FormatDirective, IEnumerable<string>>> _site1 =
-            CallSite<Func<CallSite, object, FormatDirective, IEnumerable<string>>>.Create(FormatBinder.Instance1);
+        private static readonly CallSite<Func<CallSite, object, FormatSelectionCriteria, IEnumerable<string>>> _site =
+            CallSite<Func<CallSite, object, FormatSelectionCriteria, IEnumerable<string>>>.Create(FormatBinder.Instance);
 
         public const string AttachedFormatPropertyName = "__PSMoreFormat";
 
         public static IEnumerable<string> Format(object o)
         {
-            var psobj = o as PSObject ?? new PSObject(o);
-            var directive = psobj.Properties[AttachedFormatPropertyName]?.Value as FormatDirective;
-            return directive != null
-                ? _site1.Target.Invoke(_site1, psobj, directive)
-                : _site0.Target.Invoke(_site0, psobj);
+            return Format(o, directive: null);
         }
 
         public static IEnumerable<string> Format(object o, FormatDirective directive)
         {
-            var psobj = o as PSObject ?? new PSObject(o);
-            return _site1.Target.Invoke(_site1, psobj, directive);
+            Type type;
+            if (o is PSObject psobj)
+            {
+                type = psobj.BaseObject.GetType();
+            }
+            else
+            {
+                type = o.GetType();
+                psobj = new PSObject(o);
+            }
+
+            if (directive == null)
+            {
+                directive = psobj.Properties[AttachedFormatPropertyName]?.Value as FormatDirective;
+            }
+
+            FormatStyle style = FormatStyle.Default;
+            if (directive != null)
+            {
+                switch (directive)
+                {
+                    case ListFormat lf:
+                        style = FormatStyle.List;
+                        break;
+                }
+
+                if (directive.Type == null)
+                {
+                    directive = directive.Clone(type);
+                }
+            }
+
+            var criteria = new FormatSelectionCriteria(
+                directive: directive,
+                style: style,
+                type: type,
+                name: null);
+            return _site.Target.Invoke(_site, psobj, criteria);
         }
     }
 
     public abstract class FormatDirective
     {
-        protected FormatDirective(string name, ICondition when)
+        public string Name { get; }
+        public ICondition When { get; }
+        public Type Type { get; }
+
+        protected FormatDirective(string name, Type type, ICondition when)
         {
             Name = name;
+            Type = type;
             When = when;
         }
 
+        internal abstract FormatDirective Clone(Type type);
+
+        internal abstract Expression Bind(Expression toFormat, Expression criteria, LabelTarget returnLabel);
+
         public override bool Equals(object obj)
         {
-            var other = obj as FormatDirective;
-            return other != null
-                && string.Equals(Name, other.Name)
-                && object.ReferenceEquals(When, other.When);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((FormatDirective) obj);
         }
 
         public override int GetHashCode()
         {
-            var n1 = Name != null ? Name.GetHashCode() : 0;
-            var n2 = When != null ? When.GetHashCode() : 0;
-            return Utils.CombineHashCodes(n1, n2);
-        }
-
-        public string Name { get; }
-        public ICondition When { get; }
-
-        internal abstract Expression Bind(Expression toFormat, Expression directive, LabelTarget returnLabel);
-
-        protected Expression GetAppliesCall(Expression directive, Expression toFormat)
-        {
-            return Expression.Call(Expression.Constant(this), FormatApplies, directive, toFormat);
-        }
-
-        private static readonly MethodInfo FormatApplies =
-            typeof(FormatDirective).GetMethod(nameof(Applies), BindingFlags.NonPublic | BindingFlags.Instance);
-
-        private bool Applies(FormatDirective other, object obj)
-        {
-            return this.Equals(other) && (When == null || When.Applies(obj));
+            return Utils.CombineHashCodes(
+                Name?.GetHashCode() ?? 0,
+                When?.GetHashCode() ?? 0);
         }
     }
-
 }

@@ -44,20 +44,22 @@ namespace PSMore.Formatting
     {
         public ListFormat(
             IEnumerable<ListEntry> entries = null,
+            Type type = null,
             ICondition when = null,
             string name = "Default"
         )
-            : base(name, when)
+            : base(name, type, when)
         {
             Entries = new ReadOnlyCollection<ListEntry>(entries?.ToArray() ?? Array.Empty<ListEntry>());
         }
 
         public ListFormat(
             object[] properties,
+            Type type = null,
             ICondition when = null,
             string name = "Default"
         )
-            : base(name, when)
+            : base(name, type, when)
         {
             if (properties == null || properties.Length == 0)
                 throw new ArgumentException();
@@ -77,6 +79,11 @@ namespace PSMore.Formatting
             }
 
             Entries = new ReadOnlyCollection<ListEntry>(entries);
+        }
+
+        internal override FormatDirective Clone(Type type)
+        {
+            return new ListFormat(this.Entries, type, this.When, this.Name);
         }
 
         public override bool Equals(object obj)
@@ -115,7 +122,7 @@ namespace PSMore.Formatting
         private static readonly MethodInfo FormatLineMethodInfo =
             typeof(ListFormat).GetMethod(nameof(FormatLine), BindingFlags.NonPublic | BindingFlags.Static);
 
-        internal override Expression Bind(Expression toFormat, Expression directive, LabelTarget returnLabel)
+        internal override Expression Bind(Expression toFormat, Expression criteria, LabelTarget returnLabel)
         {
             int maxLabel = -1;
             foreach (var entry in Entries)
@@ -136,7 +143,7 @@ namespace PSMore.Formatting
             }
 
             return Expression.IfThen(
-                GetAppliesCall(directive, toFormat),
+                FormatSelectionCriteria.GetCompatibleCall(criteria, this, toFormat),
                 Expression.Return(returnLabel,
                     Expression.NewArrayInit(typeof(string), expressions)));
         }

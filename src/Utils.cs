@@ -13,5 +13,10 @@ namespace PSMore.Formatting
         {
             return CombineHashCodes(CombineHashCodes(h1, h2), h3);
         }
+
+        internal static int CombineHashCodes(int h1, int h2, int h3, int h4)
+        {
+            return CombineHashCodes(CombineHashCodes(CombineHashCodes(h1, h2), h3), h4);
+        }
     }
 }
