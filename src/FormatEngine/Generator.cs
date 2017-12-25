@@ -2,17 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management.Automation.Language;
 using System.Reflection;
-using PSMore.FormatAttributes;
 
 namespace PSMore.Formatting
 {
-    static class FormatGenerator
+    static class Generator
     {
-        public static FormatDirective Generate(FormatSelectionCriteria criteria)
+        public static Descriptor Generate(SelectionCriteria criteria)
         {
-            return new FormatToString(criteria.Type);
+            return new BasicDescriptor(criteria.Type);
         }
 
         struct OrderedProperty
@@ -22,7 +20,7 @@ namespace PSMore.Formatting
             public bool Default;
         }
 
-        public static void Generate(Type type, Type proxyOf, ICondition when, List<FormatDirective> directives)
+        public static void Generate(Type type, Type proxyOf, ICondition when, List<Descriptor> descriptors)
         {
             List<OrderedProperty> defaultProperties = new List<OrderedProperty>();
 
@@ -70,8 +68,8 @@ namespace PSMore.Formatting
                 }
             }
 
-            var sortedEntries = defaultProperties.OrderBy(op => op.Position).Select(op => new ListEntry(op.Name));
-            directives.Add(new ListFormat(sortedEntries, proxyOf, when));
+            var sortedEntries = defaultProperties.OrderBy(op => op.Position).Select(op => new ListDescriptorPropertyEntry(op.Name));
+            descriptors.Add(new ListDescriptor(sortedEntries, proxyOf, when));
         }
     }
 }

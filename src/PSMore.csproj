@@ -59,20 +59,18 @@
     <Compile Include="DefaultFormats\System.Management.Automation.Formats.cs" />
     <Compile Include="DefaultFormats\System.Net.Formats.cs" />
     <Compile Include="DefaultFormats\System.ServiceProcess.Formats.cs" />
-    <Compile Include="FormatEngine\FormatExtensions.cs" />
+    <Compile Include="FormatEngine\Descriptors.cs" />
     <Compile Include="DefaultFormats\Microsoft.Management.Infrastructure.Formats.cs" />
-    <Compile Include="FormatEngine\FormatAttributes.cs" />
+    <Compile Include="FormatEngine\Attributes.cs" />
     <Compile Include="Cmdlets\PSMore.cs" />
     <Compile Include="Cmdlets\PSMoreFormatList.cs" />
     <Compile Include="Cmdlets\PSMoreOutString.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="DefaultFormats\System.Diagnostics.Formats.cs" />
-    <Compile Include="FormatEngine\FormatBinders.cs" />
-    <Compile Include="FormatEngine\FormatEngine.cs" />
-    <Compile Include="FormatEngine\FormatGenerator.cs" />
-    <Compile Include="FormatEngine\FormatList.cs" />
-    <Compile Include="FormatEngine\FormatSelector.cs" />
-    <Compile Include="FormatEngine\FormatToString.cs" />
+    <Compile Include="FormatEngine\Binders.cs" />
+    <Compile Include="FormatEngine\Engine.cs" />
+    <Compile Include="FormatEngine\Generator.cs" />
+    <Compile Include="FormatEngine\Selector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

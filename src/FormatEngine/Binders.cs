@@ -2,11 +2,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Dynamic;
 using System.Linq.Expressions;
-using System.Management.Automation;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace PSMore.Formatting
@@ -19,7 +16,7 @@ namespace PSMore.Formatting
 
         public override Expression Bind(object[] args, ReadOnlyCollection<ParameterExpression> parameters, LabelTarget returnLabel)
         {
-            if (args.Length != 2 || !(args[1] is FormatSelectionCriteria criteria))
+            if (args.Length != 2 || !(args[1] is SelectionCriteria criteria))
             {
                 throw new ArgumentException();
             }
@@ -27,11 +24,11 @@ namespace PSMore.Formatting
             var toFormatExpr = parameters[0];
             var criteriaExpr = parameters[1];
 
-            var directive = criteria.Directive
-                ?? FormatSelector.FindDirective(criteria, args[0])
-                ?? FormatGenerator.Generate(criteria);
+            var descriptor = criteria.Descriptor
+                ?? Selector.FindDirective(criteria, args[0])
+                ?? Generator.Generate(criteria);
 
-            return directive.Bind(toFormatExpr, criteriaExpr, returnLabel);
+            return descriptor.Bind(toFormatExpr, criteriaExpr, returnLabel);
         }
     }
 

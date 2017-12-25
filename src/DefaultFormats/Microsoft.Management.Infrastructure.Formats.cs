@@ -1,6 +1,5 @@
 using System;
 using System.Management.Automation;
-using PSMore.FormatAttributes;
 using Microsoft.Management.Infrastructure;
 using PSMore.Formatting;
 
@@ -16,8 +15,7 @@ namespace PSMore.DefaultFormats
         public static bool Applies(object o, string className, string ns)
         {
             if (o is PSObject psObj) o = psObj.BaseObject;
-            var cimInstance = o as CimInstance;
-            return cimInstance != null
+            return o is CimInstance cimInstance
                 && string.Equals(cimInstance.CimSystemProperties.ClassName, className, StringComparison.Ordinal)
                 && string.Equals(cimInstance.CimSystemProperties.Namespace, ns, StringComparison.Ordinal);
         }
@@ -28,8 +26,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_VolumeQuotaSetting", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_VolumeQuotaSetting", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Element;
@@ -41,8 +39,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_BaseBoard", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_BaseBoard", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Manufacturer;
@@ -58,8 +56,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemEnclosure", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_SystemEnclosure", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Manufacturer;
@@ -75,8 +73,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NTDomain", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NTDomain", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object ClientSiteName;
@@ -95,8 +93,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkLoginProfile", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NetworkLoginProfile", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -112,8 +110,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_ComputerSystem", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_ComputerSystem", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Domain;
@@ -129,8 +127,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_TimeZone", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_TimeZone", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Bias;
@@ -143,8 +141,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_DiskQuota", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_DiskQuota", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DiskSpaceUsed;
@@ -158,8 +156,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_SoftwareFeature", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_SoftwareFeature", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -174,8 +172,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Printer", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Printer", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Location;
@@ -191,8 +189,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_VoltageProbe", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_VoltageProbe", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Status;
@@ -207,8 +205,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_TapeDrive", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_TapeDrive", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DeviceID;
@@ -223,8 +221,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PortResource", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PortResource", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -237,8 +235,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_LoadOrderGroup", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_LoadOrderGroup", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object GroupOrder;
@@ -250,8 +248,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "WIN32_SoundDevice", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "WIN32_SoundDevice", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Manufacturer;
@@ -265,8 +263,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_BIOS", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_BIOS", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object SMBIOSBIOSVersion;
@@ -281,8 +279,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "WIN32_DESKTOPMONITOR", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "WIN32_DESKTOPMONITOR", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DeviceID;
@@ -298,8 +296,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_ScheduledJob", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_ScheduledJob", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object JobId;
@@ -314,8 +312,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkProtocol", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NetworkProtocol", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -331,8 +329,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "WIN32_PROCESSOR", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "WIN32_PROCESSOR", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -348,8 +346,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_LogicalDisk", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_LogicalDisk", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DeviceID;
@@ -365,8 +363,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_WMISetting", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_WMISetting", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object BuildVersion;
@@ -382,8 +380,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PrinterConfiguration", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PrinterConfiguration", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object PrintQuality;
@@ -398,8 +396,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PageFileUsage", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PageFileUsage", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -412,8 +410,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PhysicalMemoryArray", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PhysicalMemoryArray", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Model;
@@ -427,8 +425,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_QuotaSetting", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_QuotaSetting", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -444,8 +442,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Msft_CliAlias", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Msft_CliAlias", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object FriendlyName;
@@ -458,8 +456,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_DMAChannel", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_DMAChannel", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object AddressSize;
@@ -474,8 +472,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NTLogEvent", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NTLogEvent", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Category;
@@ -499,8 +497,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_TemperatureProbe", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_TemperatureProbe", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object CurrentReading;
@@ -516,8 +514,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_IRQResource", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_IRQResource", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Hardware;
@@ -533,8 +531,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_OnBoardDevice", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_OnBoardDevice", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DeviceType;
@@ -548,8 +546,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemSlot", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_SystemSlot", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object SlotDesignation;
@@ -566,8 +564,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_LogonSession", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_LogonSession", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object AuthenticationPackage;
@@ -583,8 +581,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PerfRawData_PerfNet_Server", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PerfRawData_PerfNet_Server", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -600,8 +598,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemDriver", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_SystemDriver", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DisplayName;
@@ -616,8 +614,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Group", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Group", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -631,8 +629,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Share", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Share", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Name;
@@ -645,8 +643,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_StartupCommand", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_StartupCommand", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Command;
@@ -659,8 +657,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "WIN32_NetworkClient", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "WIN32_NetworkClient", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -674,8 +672,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_QuickFixEngineering", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_QuickFixEngineering", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Description;
@@ -694,8 +692,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_SCSIController", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_SCSIController", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DriverName;
@@ -711,8 +709,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_UninterruptiblePowerSupply", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_UninterruptiblePowerSupply", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DeviceID;
@@ -728,8 +726,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_DeviceMemoryAddress", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_DeviceMemoryAddress", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object MemoryType;
@@ -742,8 +740,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_OperatingSystem", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_OperatingSystem", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object SystemDirectory;
@@ -759,8 +757,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_ComputerSystemProduct", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_ComputerSystemProduct", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object IdentifyingNumber;
@@ -775,8 +773,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_LogicalMemoryConfiguration", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_LogicalMemoryConfiguration", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Name;
@@ -790,8 +788,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkAdapterConfiguration", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NetworkAdapterConfiguration", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DHCPEnabled;
@@ -808,8 +806,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkAdapter", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NetworkAdapter", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object ServiceName;
@@ -826,8 +824,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "WIN32_CACHEMEMORY", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "WIN32_CACHEMEMORY", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object BlockSize;
@@ -846,8 +844,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_SoftwareElement", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_SoftwareElement", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -863,8 +861,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NetworkConnection", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NetworkConnection", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object LocalName;
@@ -878,8 +876,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_ProcessXXX", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_ProcessXXX", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object ThreadCount;
@@ -895,8 +893,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Product", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Product", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object IdentifyingNumber;
@@ -911,8 +909,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_UserAccount", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_UserAccount", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object AccountType;
@@ -928,8 +926,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Process", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Process", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object ProcessId;
@@ -944,8 +942,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Service", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Service", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object ExitCode;
@@ -961,8 +959,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_CDROMDrive", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_CDROMDrive", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -976,8 +974,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_DiskDrive", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_DiskDrive", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Partitions;
@@ -992,8 +990,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Environment", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Environment", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object VariableValue;
@@ -1006,8 +1004,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Registry", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Registry", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object CurrentSize;
@@ -1021,8 +1019,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PortConnector", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PortConnector", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Tag;
@@ -1037,8 +1035,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_DiskPartition", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_DiskPartition", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object NumberOfBlocks;
@@ -1054,8 +1052,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_IDEController", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_IDEController", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Manufacturer;
@@ -1070,8 +1068,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_Directory", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_Directory", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Hidden;
@@ -1089,8 +1087,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "WIN32_DCOMApplication", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "WIN32_DCOMApplication", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object AppID;
@@ -1103,8 +1101,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_SystemAccount", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_SystemAccount", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Caption;
@@ -1118,8 +1116,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "CIM_DataFile", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "CIM_DataFile", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Compressed;
@@ -1138,8 +1136,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "WIN32_DESKTOP", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "WIN32_DESKTOP", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Name;
@@ -1154,8 +1152,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_BootConfiguration", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_BootConfiguration", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object BootDirectory;
@@ -1169,8 +1167,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PageFileSetting", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PageFileSetting", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object MaximumSize;
@@ -1183,8 +1181,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_PrintJob", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_PrintJob", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object Document;
@@ -1201,8 +1199,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_NTEventlogFile", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_NTEventlogFile", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object FileSize;
@@ -1216,8 +1214,8 @@ namespace PSMore.DefaultFormats
     {
         private class When : ICondition
         {
-            bool ICondition.Applies(object o)
-                => CimInstanceBindingRestrictions.Applies(o, "Win32_OSRecoveryConfiguration", "root/cimv2");
+            bool ICondition.Applies(object obj)
+                => CimInstanceBindingRestrictions.Applies(obj, "Win32_OSRecoveryConfiguration", "root/cimv2");
         }
 
         [DisplayProperty(Position = 0)] public object DebugFilePath;

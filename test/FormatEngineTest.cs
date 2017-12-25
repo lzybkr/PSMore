@@ -25,9 +25,9 @@ namespace Test
         }
 
 
-        static IEnumerable<string> Format(object o, FormatDirective directive)
+        static IEnumerable<string> Format(object o, Descriptor descriptor)
         {
-            return PSMore.Formatting.FormatEngine.Format(o, directive).ToArray();
+            return PSMore.Formatting.FormatEngine.Format(o, descriptor).ToArray();
         }
 
         [Fact]
@@ -38,11 +38,11 @@ namespace Test
             Assert.Equal(typeof(string).ToString(), result[0]);
         }
 
-        private IEnumerable<ListEntry> ListEntries(params string[] propertyNames)
+        private IEnumerable<ListDescriptorEntry> ListEntries(params string[] propertyNames)
         {
             foreach (var propertyName in propertyNames)
             {
-                yield return new ListEntry(propertyName);
+                yield return new ListDescriptorPropertyEntry(propertyName);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Test
             dynamic p = new PSObject(currentProcess);
 
             var properties = new [] {"ProcessName", "MachineName", "Company"};
-            var l = new ListFormat(ListEntries(properties));
+            var l = new ListDescriptor(ListEntries(properties));
             var result = Format(p, l);
             Assert.Equal(3, result.Length);
             var fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";
@@ -62,7 +62,7 @@ namespace Test
             Assert.Equal(string.Format(fmt, "Company", p.Company), result[2]);
 
             properties = new[] { "Company", "ProcessName" };
-            l = new ListFormat(ListEntries(properties));
+            l = new ListDescriptor(ListEntries(properties));
             result = Format(p, l);
             Assert.Equal(2, result.Length);
             fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";

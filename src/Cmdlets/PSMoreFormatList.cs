@@ -14,17 +14,17 @@ namespace PSMore
         [Parameter(ValueFromPipeline = true)]
         public PSObject InputObject { get; set; }
 
-        private ListFormat _formatDirective;
+        private ListDescriptor _formatDirective;
 
         protected override void BeginProcessing()
         {
             if (Property != null)
             {
-                _formatDirective = new ListFormat(Property);
+                _formatDirective = new ListDescriptor(Property);
             }
             else
             {
-                _formatDirective = new ListFormat();
+                _formatDirective = new ListDescriptor();
             }
         }
 
