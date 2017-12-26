@@ -36,10 +36,15 @@ namespace PSMore
                 }
                 notFirst = true;
 
-                foreach (var line in FormatEngine.Format(obj))
+                foreach (var instr in FormatEngine.Format(obj))
                 {
-                    if (Stream) { WriteObject(line); }
-                    else { _lines.Add(line); }
+                    switch (instr)
+                    {
+                        case EmitLine el:
+                            if (Stream) { WriteObject(el.Line); }
+                            else { _lines.Add(el.Line); }
+                            break;
+                    }
                 }
             }
         }

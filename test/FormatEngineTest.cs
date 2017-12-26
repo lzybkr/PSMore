@@ -14,20 +14,34 @@ namespace Test
     {
         public FormatEngine()
         {
-            var rs = RunspaceFactory.CreateRunspace(InitialSessionState.CreateDefault());
+            var iss = InitialSessionState.CreateDefault();
+            var rs = RunspaceFactory.CreateRunspace(iss);
             rs.Open();
             Runspace.DefaultRunspace = rs;
+
+            using (var ps = PowerShell.Create(RunspaceMode.CurrentRunspace))
+            {
+                ps.AddCommand("Import-Module").AddArgument(typeof(PSMore.OutStringCommand).Assembly.Location).Invoke();
+            }
         }
 
-        static string[] Format(object o)
+        string[] Format(object obj)
         {
-            return PSMore.Formatting.FormatEngine.Format(o).ToArray();
+            using (var ps = PowerShell.Create(RunspaceMode.CurrentRunspace))
+            {
+                ps.AddCommand("Out-PSMoreString").AddParameter("Stream");
+                return ps.Invoke<string>(new[] { obj }).ToArray();
+            }
         }
 
-
-        static IEnumerable<string> Format(object o, Descriptor descriptor)
+        static string[] FormatList(object obj, IEnumerable<string> properties)
         {
-            return PSMore.Formatting.FormatEngine.Format(o, descriptor).ToArray();
+            using (var ps = PowerShell.Create(RunspaceMode.CurrentRunspace))
+            {
+                ps.AddCommand("Format-PSMoreList").AddParameter("Property", properties.ToArray());
+                ps.AddCommand("Out-PSMoreString").AddParameter("Stream");
+                return ps.Invoke<string>(new[] { obj }).ToArray();
+            }
         }
 
         [Fact]
@@ -53,8 +67,7 @@ namespace Test
             dynamic p = new PSObject(currentProcess);
 
             var properties = new [] {"ProcessName", "MachineName", "Company"};
-            var l = new ListDescriptor(ListEntries(properties));
-            var result = Format(p, l);
+            var result = FormatList(p, properties);
             Assert.Equal(3, result.Length);
             var fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";
             Assert.Equal(string.Format(fmt, "ProcessName", currentProcess.ProcessName), result[0]);
@@ -62,8 +75,7 @@ namespace Test
             Assert.Equal(string.Format(fmt, "Company", p.Company), result[2]);
 
             properties = new[] { "Company", "ProcessName" };
-            l = new ListDescriptor(ListEntries(properties));
-            result = Format(p, l);
+            result = FormatList(p, properties);
             Assert.Equal(2, result.Length);
             fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";
             Assert.Equal(string.Format(fmt, "Company", p.Company), result[0]);

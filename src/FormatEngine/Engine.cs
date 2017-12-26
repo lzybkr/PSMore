@@ -79,13 +79,22 @@ namespace PSMore.Formatting
         }
     }
 
+    abstract class FormatInstruction
+    {
+    }
+
+    class EmitLine : FormatInstruction
+    {
+        public string Line { get; set; }
+    }
+
     /// <summary>
     /// A static class with the primary formatting methods for arbitrary objects.
     /// </summary>
     public static class FormatEngine
     {
-        private static readonly CallSite<Func<CallSite, object, SelectionCriteria, IEnumerable<string>>> _site =
-            CallSite<Func<CallSite, object, SelectionCriteria, IEnumerable<string>>>.Create(FormatBinder.Instance);
+        private static readonly CallSite<Func<CallSite, object, SelectionCriteria, IEnumerable<FormatInstruction>>> _site =
+            CallSite<Func<CallSite, object, SelectionCriteria, IEnumerable<FormatInstruction>>>.Create(FormatBinder.Instance);
 
         /// <summary>
         /// Specifies the name of the property attached to objects when formatting is specified.
@@ -97,7 +106,7 @@ namespace PSMore.Formatting
         /// Format an object using the default format for that object.
         /// </summary>
         /// <param name="obj">The object to format.</param>
-        public static IEnumerable<string> Format(object obj)
+        internal static IEnumerable<FormatInstruction> Format(object obj)
         {
             return Format(obj, descriptor: null);
         }
@@ -107,7 +116,7 @@ namespace PSMore.Formatting
         /// </summary>
         /// <param name="obj">The object to format.</param>
         /// <param name="descriptor">The formatting descriptor.</param>
-        public static IEnumerable<string> Format(object obj, Descriptor descriptor)
+        internal static IEnumerable<FormatInstruction> Format(object obj, Descriptor descriptor)
         {
             Type type;
             if (obj is PSObject psobj)

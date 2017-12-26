@@ -109,15 +109,21 @@ namespace PSMore.Formatting
 
         internal override Descriptor Clone(Type type) => new BasicDescriptor(type);
 
-        private static readonly MethodInfo ToStringMethodInfo = typeof(object).GetMethod("ToString", Type.EmptyTypes);
+        private static FormatInstruction GetFormattedResult(object obj)
+        {
+            return new EmitLine { Line = obj.ToString() };
+        }
+
+        private static readonly MethodInfo GetFormattedResultMethodInfo
+            = typeof(BasicDescriptor).GetMethod(nameof(GetFormattedResult), BindingFlags.Static | BindingFlags.NonPublic);
 
         internal override Expression Bind(Expression toFormat, Expression criteria, LabelTarget returnLabel)
         {
             return Expression.IfThen(
                 SelectionCriteria.GetCompatibleCall(criteria, this, toFormat),
                 Expression.Return(returnLabel,
-                    Expression.NewArrayInit(typeof(string),
-                        Expression.Call(Expression.Convert(toFormat, typeof(object)), ToStringMethodInfo))));
+                    Expression.NewArrayInit(typeof(FormatInstruction),
+                        Expression.Call(GetFormattedResultMethodInfo, Expression.Convert(toFormat, typeof(object))))));
         }
     }
 
@@ -331,10 +337,10 @@ namespace PSMore.Formatting
             return result;
         }
 
-        private static string FormatLine(string formatExpr, string propertyName, object property)
+        private static EmitLine FormatLine(string formatExpr, string propertyName, object property)
         {
             var propertyAsString = (property == null ? "<null>" : property as string) ?? property.ToString();
-            return string.Format(formatExpr, propertyName, propertyAsString);
+            return new EmitLine { Line = string.Format(formatExpr, propertyName, propertyAsString) };
         }
 
         private static readonly MethodInfo FormatLineMethodInfo =
@@ -362,7 +368,7 @@ namespace PSMore.Formatting
             return Expression.IfThen(
                 SelectionCriteria.GetCompatibleCall(criteria, this, toFormat),
                 Expression.Return(returnLabel,
-                    Expression.NewArrayInit(typeof(string), expressions)));
+                    Expression.NewArrayInit(typeof(FormatInstruction), expressions)));
         }
     }
 }

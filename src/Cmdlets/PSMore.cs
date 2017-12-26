@@ -16,22 +16,29 @@ namespace PSMore
 
         private List<object> _objects;
         private Task _outputTask;
-        private BufferBlock<string> _buffer;
+        private BufferBlock<FormatInstruction> _buffer;
         private CancellationTokenSource _cancellationTokenSource;
 
+        static EmitLine BlankLine = new EmitLine { Line = "" };
         protected override void BeginProcessing()
         {
             _objects = new List<object>();
-            _buffer = new BufferBlock<string>();
+            _buffer = new BufferBlock<FormatInstruction>();
             _cancellationTokenSource = new CancellationTokenSource();
             _outputTask = OutputItems(_buffer);
         }
 
-        async Task OutputItems(ISourceBlock<string> source)
+        async Task OutputItems(ISourceBlock<FormatInstruction> source)
         {
             while (await source.OutputAvailableAsync(_cancellationTokenSource.Token))
             {
-                Console.WriteLine(source.Receive());
+                var instr = source.Receive();
+                switch (instr)
+                {
+                    case EmitLine el:
+                        Console.WriteLine(el.Line);
+                        break;
+                }
             }
         }
 
@@ -42,7 +49,7 @@ namespace PSMore
             _objects.AddRange(InputObject);
             foreach (var obj in InputObject)
             {
-                if (_objects.Count > 1) _buffer.Post("");
+                if (_objects.Count > 1) _buffer.Post(BlankLine);
                 foreach (var line in FormatEngine.Format(obj))
                 {
                     _buffer.Post(line);
