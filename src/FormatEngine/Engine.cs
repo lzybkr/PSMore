@@ -5,6 +5,9 @@ using System.Linq.Expressions;
 using System.Management.Automation;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace PSMore.Formatting
 {
@@ -73,6 +76,10 @@ namespace PSMore.Formatting
                 case Style.List:
                     if (!(descriptor is ListDescriptor)) return false;
                     break;
+
+                case Style.Table:
+                    if (!(descriptor is TableDescriptor)) return false;
+                    break;
             }
 
             return Descriptor == null || descriptor.Equals(Descriptor);
@@ -86,6 +93,13 @@ namespace PSMore.Formatting
     class EmitLine : FormatInstruction
     {
         public string Line { get; set; }
+    }
+
+    class EmitPropertyLine : EmitLine { }
+
+    class EmitTableRow : FormatInstruction
+    {
+        public string[] Columns { get; set; }
     }
 
     /// <summary>
@@ -142,6 +156,10 @@ namespace PSMore.Formatting
                     case ListDescriptor lf:
                         style = Style.List;
                         break;
+
+                    case TableDescriptor tf:
+                        style = Style.Table;
+                        break;
                 }
 
                 if (descriptor.Type == null)
@@ -156,6 +174,59 @@ namespace PSMore.Formatting
                 type: type,
                 name: null);
             return _site.Target.Invoke(_site, psobj, criteria);
+        }
+    }
+
+    class FormattingPipeline
+    {
+        internal FormattingPipeline(ITargetBlock<string> lineOutputBuffer)
+        {
+            _lineOutputBuffer = lineOutputBuffer;
+        }
+
+        private readonly ITargetBlock<string> _lineOutputBuffer;
+        bool _lastWasTableRow;
+
+        internal void Process(object obj)
+        {
+            bool sawList = false;
+            foreach (var instr in FormatEngine.Format(obj))
+            {
+                switch (instr)
+                {
+                    case EmitPropertyLine epl:
+                        _lineOutputBuffer.Post(epl.Line);
+                        _lastWasTableRow = false;
+                        sawList = true;
+                        break;
+
+                    case EmitLine el:
+                        _lineOutputBuffer.Post(el.Line);
+                        _lastWasTableRow = false;
+                        break;
+
+                    case EmitTableRow etr:
+                        _lineOutputBuffer.Post(string.Join(", ", etr.Columns));
+                        _lastWasTableRow = true;
+                        break;
+                }
+            }
+            if (sawList)
+            {
+                _lineOutputBuffer.Post("");
+            }
+        }
+
+        internal void Complete()
+        {
+            if (_lastWasTableRow)
+            {
+                _lineOutputBuffer.Post("");
+            }
+        }
+
+        internal void Cancel()
+        {
         }
     }
 }

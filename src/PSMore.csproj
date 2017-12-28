@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Cmdlets\BaseFormatCommand.cs" />
+    <Compile Include="Cmdlets\BaseOutCommand.cs" />
+    <Compile Include="Cmdlets\FormatTableCommand.cs" />
     <Compile Include="DefaultFormats\System.DirectoryServices.Formats.cs" />
     <Compile Include="DefaultFormats\System.IO.Formats.cs" />
     <Compile Include="DefaultFormats\System.Management.Automation.Formats.cs" />
@@ -62,9 +65,10 @@
     <Compile Include="FormatEngine\Descriptors.cs" />
     <Compile Include="DefaultFormats\Microsoft.Management.Infrastructure.Formats.cs" />
     <Compile Include="FormatEngine\Attributes.cs" />
-    <Compile Include="Cmdlets\PSMore.cs" />
-    <Compile Include="Cmdlets\PSMoreFormatList.cs" />
-    <Compile Include="Cmdlets\PSMoreOutString.cs" />
+    <Compile Include="Cmdlets\OutDefaultCommand.cs" />
+    <Compile Include="Cmdlets\FormatListCommand.cs" />
+    <Compile Include="Cmdlets\OutStringCommand.cs" />
+    <Compile Include="FormatEngine\RuntimeHelpers.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="DefaultFormats\System.Diagnostics.Formats.cs" />
     <Compile Include="FormatEngine\Binders.cs" />

@@ -1,60 +1,78 @@
 using System;
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Text;
+using System.Threading.Tasks.Dataflow;
 using PSMore.Formatting;
 
-namespace PSMore
+namespace PSMore.Commands
 {
+    /// <summary>
+    /// </summary>
     [Cmdlet("Out", "PSMoreString")]
     [Alias("psmoreos")]
-    public class OutStringCommand : PSCmdlet
+    public class OutStringCommand : BaseOutCommand
     {
-        [Parameter(ValueFromPipeline = true)]
-        public object[] InputObject { get; set; }
-
+        /// <summary>
+        /// </summary>
         [Parameter]
         public SwitchParameter Stream { get; set; }
 
-        private List<string> _lines;
+        private StringBuilder _sb;
+        private BufferBlock<string> _buffer;
 
-        protected override void BeginProcessing()
+        /// <summary>
+        /// </summary>
+        protected override ITargetBlock<string> GetLineOutputAction()
         {
-            if (!Stream) _lines = new List<string>();
+            return _buffer ?? (_buffer = new BufferBlock<string>());
         }
 
-        private bool notFirst = false;
+        private void ProcessBuffer(Action<string> action)
+        {
+            while (_buffer.Count > 0)
+            {
+                action(_buffer.Receive());
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+            if (!Stream)
+            {
+                _sb = new StringBuilder();
+            }
+        }
+
+        /// <summary>
+        /// </summary>
         protected override void ProcessRecord()
         {
             if (InputObject == null || InputObject.Length == 0) return;
 
             foreach (var obj in InputObject)
             {
-                if (notFirst)
+                FormattingPipeline.Process(obj);
+                if (Stream)
                 {
-                    if (Stream) { WriteObject(""); }
-                    else { _lines.Add(""); }
+                    ProcessBuffer(WriteObject);
                 }
-                notFirst = true;
-
-                foreach (var instr in FormatEngine.Format(obj))
+                else
                 {
-                    switch (instr)
-                    {
-                        case EmitLine el:
-                            if (Stream) { WriteObject(el.Line); }
-                            else { _lines.Add(el.Line); }
-                            break;
-                    }
+                    ProcessBuffer(line => _sb.AppendLine(line));
                 }
             }
         }
 
+        /// <summary>
+        /// </summary>
         protected override void EndProcessing()
         {
-            if (!Stream)
-            {
-                WriteObject(string.Join(Environment.NewLine, _lines));
-            }
+            if (!Stream) WriteObject(_sb.ToString());
+            base.EndProcessing();
         }
     }
 }

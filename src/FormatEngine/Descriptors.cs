@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace PSMore.Formatting
 {
@@ -65,12 +63,6 @@ namespace PSMore.Formatting
         internal abstract Descriptor Clone(Type type);
 
         /// <summary>
-        /// Descriptors generate expressions that evaluate the object and it's properties
-        /// and return formatting instructions, e.g. strings or a header/footer.
-        /// </summary>
-        internal abstract Expression Bind(Expression toFormat, Expression criteria, LabelTarget returnLabel);
-
-        /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
         public override bool Equals(object obj)
@@ -108,23 +100,6 @@ namespace PSMore.Formatting
         public BasicDescriptor(Type type) : base("Default", type) { }
 
         internal override Descriptor Clone(Type type) => new BasicDescriptor(type);
-
-        private static FormatInstruction GetFormattedResult(object obj)
-        {
-            return new EmitLine { Line = obj.ToString() };
-        }
-
-        private static readonly MethodInfo GetFormattedResultMethodInfo
-            = typeof(BasicDescriptor).GetMethod(nameof(GetFormattedResult), BindingFlags.Static | BindingFlags.NonPublic);
-
-        internal override Expression Bind(Expression toFormat, Expression criteria, LabelTarget returnLabel)
-        {
-            return Expression.IfThen(
-                SelectionCriteria.GetCompatibleCall(criteria, this, toFormat),
-                Expression.Return(returnLabel,
-                    Expression.NewArrayInit(typeof(FormatInstruction),
-                        Expression.Call(GetFormattedResultMethodInfo, Expression.Convert(toFormat, typeof(object))))));
-        }
     }
 
     /// <summary>
@@ -133,7 +108,6 @@ namespace PSMore.Formatting
     public abstract class ListDescriptorEntry
     {
         internal abstract string GetLabel();
-        internal abstract Expression GetBinding(Expression target);
     }
 
     /// <summary>
@@ -156,12 +130,6 @@ namespace PSMore.Formatting
         public string PropertyName { get; }
 
         internal override string GetLabel() { return PropertyName; }
-
-        internal override Expression GetBinding(Expression target)
-        {
-            var binder = FormatGetMemberBinder.Get(PropertyName);
-            return Expression.Dynamic(binder, typeof(object), target);
-        }
 
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
@@ -213,11 +181,6 @@ namespace PSMore.Formatting
         public Func<object, string> Expression { get; }
 
         internal override string GetLabel() => Label;
-
-        internal override Expression GetBinding(Expression target)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
@@ -336,39 +299,190 @@ namespace PSMore.Formatting
             }
             return result;
         }
+    }
 
-        private static EmitLine FormatLine(string formatExpr, string propertyName, object property)
+    /// <summary>
+    /// Specifies the alignment of items in a column.
+    /// </summary>
+    public enum ColumnAlignment
+    {
+        /// <summary>
+        /// left of the cell, contents will trail with a ... if exceeded - ex "Display..."
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// center of the cell
+        /// </summary>
+        Center,
+
+        /// <summary>
+        /// right of the cell, contents will lead with a ... if exceeded - ex "...456"
+        /// </summary>
+        Right,
+    }
+
+    /// <summary>
+    /// Describes a single column in a <see cref="TableDescriptor"/>.
+    /// </summary>
+    public class TableColumn
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableColumn"/> class.
+        /// </summary>
+        public TableColumn(
+            string          property,
+            ColumnAlignment alignment = ColumnAlignment.Left,
+            int             width     = 0,
+            string          label     = null)
         {
-            var propertyAsString = (property == null ? "<null>" : property as string) ?? property.ToString();
-            return new EmitLine { Line = string.Format(formatExpr, propertyName, propertyAsString) };
+            Property = property;
+            Alignment = alignment;
+            Width = width;
+            Label = label;
         }
 
-        private static readonly MethodInfo FormatLineMethodInfo =
-            typeof(ListDescriptor).GetMethod(nameof(FormatLine), BindingFlags.NonPublic | BindingFlags.Static);
+        /// <summary>
+        /// The name of the property to use for the column.
+        /// </summary>
+        public string Property { get; }
 
-        internal override Expression Bind(Expression toFormat, Expression criteria, LabelTarget returnLabel)
+        /// <summary>
+        /// Specifies the alignment within the column.
+        /// </summary>
+        public ColumnAlignment Alignment { get; }
+
+        /// <summary>
+        /// Specifies the maximum width of the column. If &lt;= 0, the column width is calculated.
+        /// </summary>
+        public int Width { get; }
+
+        /// <summary>
+        /// The label for the column. Normally this should be the property name, but occasionally it is useful
+        /// to specify a shortened form of the property name for narrow columns.
+        /// </summary>
+        public string Label { get; }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        public override bool Equals(object obj)
         {
-            int maxLabel = -1;
-            foreach (var entry in Entries)
+            if (!(obj is TableColumn other)) return false;
+
+            return string.Equals(Property, other.Property, StringComparison.OrdinalIgnoreCase)
+                && Alignment == other.Alignment
+                && Width == other.Width
+                && string.Equals(Label, other.Label, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Get the hash code for the descriptor.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return Utils.CombineHashCodes(
+                Property?.GetHashCode() ?? 0,
+                Alignment.GetHashCode(),
+                Width.GetHashCode(),
+                Label?.GetHashCode() ?? 0);
+        }
+    }
+
+    /// <summary>
+    /// A formatting descriptor that (normally) has 1 row per object.
+    /// </summary>
+    public class TableDescriptor : Descriptor
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableDescriptor"/> class.
+        /// </summary>
+        /// <param name="columns">Description of each column.</param>
+        /// <param name="type">Value of <see cref="Descriptor.Type"/></param>
+        /// <param name="when">Value of <see cref="Descriptor.When"/></param>
+        /// <param name="name">Value of <see cref="Descriptor.Name"/></param>
+        public TableDescriptor(
+            IEnumerable<TableColumn> columns = null,
+            string                   name = null,
+            Type                     type = null,
+            ICondition               when = null)
+            : base(name, type, when)
+        {
+            Columns = new ReadOnlyCollection<TableColumn>(
+                columns?.ToArray() ?? Array.Empty<TableColumn>());
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableDescriptor"/> class.
+        /// </summary>
+        /// <param name="columns">Description of each column.</param>
+        /// <param name="type">Value of <see cref="Descriptor.Type"/></param>
+        /// <param name="when">Value of <see cref="Descriptor.When"/></param>
+        /// <param name="name">Value of <see cref="Descriptor.Name"/></param>
+        public TableDescriptor(
+            object[]   columns,
+            string     name = null,
+            Type       type = null,
+            ICondition when = null)
+            : base(name, type, when)
+        {
+            if (columns == null || columns.Length == 0)
+                throw new ArgumentException();
+
+            var cols = new List<TableColumn>(columns.Length);
+            foreach (object p in columns)
             {
-                var label = entry.GetLabel();
-                maxLabel = Math.Max(maxLabel, label.Length);
-            }
-            var formatExpr = "{0,-" + maxLabel + "} : {1}";
-            var expressions = new Expression[Entries.Count];
-            for (var i = 0; i < Entries.Count; i++)
-            {
-                var entry = Entries[i];
-                expressions[i] = Expression.Call(FormatLineMethodInfo,
-                    Expression.Constant(formatExpr),
-                    Expression.Constant(entry.GetLabel()),
-                    entry.GetBinding(toFormat));
+                switch (p)
+                {
+                    case string propName:
+                        cols.Add(new TableColumn(propName));
+                        break;
+
+                    default:
+                        throw new ArgumentException();
+                }
             }
 
-            return Expression.IfThen(
-                SelectionCriteria.GetCompatibleCall(criteria, this, toFormat),
-                Expression.Return(returnLabel,
-                    Expression.NewArrayInit(typeof(FormatInstruction), expressions)));
+            this.Columns = new ReadOnlyCollection<TableColumn>(cols);
         }
+
+        /// <summary>
+        /// The columns to output.
+        /// </summary>
+        public ReadOnlyCollection<TableColumn> Columns { get; }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            if (!base.Equals(obj)) return false;
+
+            var other = (TableDescriptor)obj;
+            if (Columns.Count != other?.Columns.Count) return false;
+
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                if (!Columns[i].Equals(other.Columns[i])) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get the hash code for the descriptor.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            var result = base.GetHashCode();
+            foreach (var entry in Columns)
+            {
+                result = Utils.CombineHashCodes(result, entry.GetHashCode());
+            }
+            return result;
+        }
+
+        internal override Descriptor Clone(Type type)
+            => new TableDescriptor(Columns, Name, type, When);
     }
 }

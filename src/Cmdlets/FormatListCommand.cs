@@ -1,56 +1,21 @@
 using System.Management.Automation;
-using System.Management.Automation.Internal;
 using PSMore.Formatting;
 
-namespace PSMore
+namespace PSMore.Commands
 {
+    /// <summary>
+    /// Implementation of the <c>Format-List</c> command.
+    /// </summary>
     [Cmdlet("Format", "PSMoreList")]
     [Alias("psmorelist")]
-    public class FormatListCommand : PSCmdlet
+    public class FormatListCommand : BaseFormatCommand
     {
-        [Parameter(Position = 0)]
-        public object[] Property { get; set; }
-
-        [Parameter(ValueFromPipeline = true)]
-        public PSObject InputObject { get; set; }
-
-        private ListDescriptor _formatDirective;
-
+        /// <summary>
+        /// Initialize the descriptor for formatting objects.
+        /// </summary>
         protected override void BeginProcessing()
         {
-            if (Property != null)
-            {
-                _formatDirective = new ListDescriptor(Property);
-            }
-            else
-            {
-                _formatDirective = new ListDescriptor();
-            }
-        }
-
-        protected override void ProcessRecord()
-        {
-            if (InputObject == null || ReferenceEquals(InputObject, AutomationNull.Value)) return;
-
-            void AddDirectiveAndWrite(object obj)
-            {
-                var psobj = obj as PSObject ?? new PSObject(obj);
-                psobj.Properties.Add(new PSNoteProperty(FormatEngine.AttachedFormatPropertyName , _formatDirective));
-                WriteObject(obj);
-            }
-
-            var enumerable = LanguagePrimitives.GetEnumerable(InputObject);
-            if (enumerable != null)
-            {
-                foreach (var o in enumerable)
-                {
-                    AddDirectiveAndWrite(o);
-                }
-            }
-            else
-            {
-                AddDirectiveAndWrite(InputObject);
-            }
+            _descriptor = Property != null ? new ListDescriptor(Property) : new ListDescriptor();
         }
     }
 }
