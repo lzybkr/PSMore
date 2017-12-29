@@ -1,10 +1,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Management.Automation;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace PSMore.Formatting
 {
@@ -73,6 +78,10 @@ namespace PSMore.Formatting
                 case Style.List:
                     if (!(descriptor is ListDescriptor)) return false;
                     break;
+
+                case Style.Table:
+                    if (!(descriptor is TableDescriptor)) return false;
+                    break;
             }
 
             return Descriptor == null || descriptor.Equals(Descriptor);
@@ -86,6 +95,14 @@ namespace PSMore.Formatting
     class EmitLine : FormatInstruction
     {
         public string Line { get; set; }
+    }
+
+    class EmitPropertyLine : EmitLine { }
+
+    class EmitTableRow : FormatInstruction
+    {
+        public TableDescriptor Descriptor { get; set; }
+        public string[] Columns { get; set; }
     }
 
     /// <summary>
@@ -142,6 +159,10 @@ namespace PSMore.Formatting
                     case ListDescriptor lf:
                         style = Style.List;
                         break;
+
+                    case TableDescriptor tf:
+                        style = Style.Table;
+                        break;
                 }
 
                 if (descriptor.Type == null)
@@ -156,6 +177,134 @@ namespace PSMore.Formatting
                 type: type,
                 name: null);
             return _site.Target.Invoke(_site, psobj, criteria);
+        }
+    }
+
+    class FormattingPipeline
+    {
+        internal FormattingPipeline(ITargetBlock<string> lineOutputBlock)
+        {
+            _lineOutputBlock = lineOutputBlock;
+        }
+
+        private readonly ITargetBlock<string> _lineOutputBlock;
+        bool _lastWasTableRow;
+        bool _initialBlankLineWasOutput;
+        TableDescriptor _currentTableDescriptor;
+        Task _tableRowProcessor;
+        CancellationTokenSource _tableProcessingTokenSource;
+        BufferBlock<EmitTableRow> _tableRowsBufferBlock;
+
+        internal void Process(object obj)
+        {
+            bool sawList = false;
+            foreach (var instr in FormatEngine.Format(obj))
+            {
+                switch (instr)
+                {
+                    case EmitPropertyLine epl:
+                        if (!_initialBlankLineWasOutput)
+                        {
+                            _initialBlankLineWasOutput = true;
+                            _lineOutputBlock.Post("");
+                        }
+                        _lineOutputBlock.Post(epl.Line);
+                        _lastWasTableRow = false;
+                        sawList = true;
+                        break;
+
+                    case EmitLine el:
+                        // We don't emit an initial blank line for basic formatting
+                        _lineOutputBlock.Post(el.Line);
+                        _lastWasTableRow = false;
+                        break;
+
+                    case EmitTableRow etr:
+                        if (!_initialBlankLineWasOutput)
+                        {
+                            _initialBlankLineWasOutput = true;
+                            _lineOutputBlock.Post("");
+                        }
+
+                        if (!object.ReferenceEquals(_currentTableDescriptor, etr.Descriptor))
+                        {
+                            // Cancel any previous processing.
+                            if (_tableRowProcessor != null)
+                            {
+                                _tableRowsBufferBlock.Complete();
+                                _tableRowProcessor.Wait();
+                            }
+                            _tableProcessingTokenSource = new CancellationTokenSource();
+                            var token = _tableProcessingTokenSource.Token;
+                            _tableRowsBufferBlock = new BufferBlock<EmitTableRow>(
+                                new DataflowBlockOptions { CancellationToken = token });
+                            _tableRowProcessor = ProcessTableRows(_tableRowsBufferBlock, token);
+                            _currentTableDescriptor = etr.Descriptor;
+                        }
+
+                        _tableRowsBufferBlock.Post(etr);
+                        _lastWasTableRow = true;
+                        break;
+                }
+            }
+            if (sawList)
+            {
+                _lineOutputBlock.Post("");
+            }
+        }
+
+        async Task ProcessTableRows(BufferBlock<EmitTableRow> bufferedRows, CancellationToken token)
+        {
+            await Task.Delay(100, token).ConfigureAwait(true);
+
+            var sb = new StringBuilder();
+            int cols = _currentTableDescriptor.Columns.Count;
+            var colWidths = new int[cols];
+
+            if (bufferedRows.TryReceiveAll(out var rows))
+            {
+                foreach (var row in rows)
+                {
+                    for (int i = 0; i < cols; i++)
+                    {
+                        colWidths[i] = Math.Max(colWidths[i], row.Columns[i]?.Length ?? 0);
+                    }
+                }
+
+                foreach (var line in _currentTableDescriptor.FormatHeader(sb, colWidths))
+                {
+                    _lineOutputBlock.Post(line);
+                }
+
+                foreach (var row in rows)
+                {
+                    _currentTableDescriptor.FormatRow(sb, colWidths, row.Columns);
+                    _lineOutputBlock.Post(sb.ToString());
+                }
+            }
+
+            while (await bufferedRows.OutputAvailableAsync(token))
+            {
+                var row = bufferedRows.Receive();
+                _currentTableDescriptor.FormatRow(sb, colWidths, row.Columns);
+                _lineOutputBlock.Post(sb.ToString());
+            }
+        }
+
+        internal void Complete()
+        {
+            _tableRowsBufferBlock?.Complete();
+            _tableRowProcessor?.Wait();
+
+            if (_lastWasTableRow)
+            {
+                _lineOutputBlock.Post("");
+            }
+        }
+
+        internal void Cancel()
+        {
+            _tableProcessingTokenSource?.Cancel();
         }
     }
 }

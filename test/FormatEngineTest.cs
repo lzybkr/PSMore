@@ -21,7 +21,7 @@ namespace Test
 
             using (var ps = PowerShell.Create(RunspaceMode.CurrentRunspace))
             {
-                ps.AddCommand("Import-Module").AddArgument(typeof(PSMore.OutStringCommand).Assembly.Location).Invoke();
+                ps.AddCommand("Import-Module").AddArgument(typeof(PSMore.Commands.OutStringCommand).Assembly.Location).Invoke();
             }
         }
 
@@ -68,18 +68,31 @@ namespace Test
 
             var properties = new [] {"ProcessName", "MachineName", "Company"};
             var result = FormatList(p, properties);
-            Assert.Equal(3, result.Length);
+            Assert.Equal(5, result.Length);
             var fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";
-            Assert.Equal(string.Format(fmt, "ProcessName", currentProcess.ProcessName), result[0]);
-            Assert.Equal(string.Format(fmt, "MachineName", currentProcess.MachineName), result[1]);
-            Assert.Equal(string.Format(fmt, "Company", p.Company), result[2]);
+            Assert.Equal("", result[0]);
+            Assert.Equal(string.Format(fmt, "ProcessName", currentProcess.ProcessName), result[1]);
+            Assert.Equal(string.Format(fmt, "MachineName", currentProcess.MachineName), result[2]);
+            Assert.Equal(string.Format(fmt, "Company", p.Company), result[3]);
+            Assert.Equal("", result[4]);
 
             properties = new[] { "Company", "ProcessName" };
             result = FormatList(p, properties);
-            Assert.Equal(2, result.Length);
+            Assert.Equal(4, result.Length);
             fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";
-            Assert.Equal(string.Format(fmt, "Company", p.Company), result[0]);
-            Assert.Equal(string.Format(fmt, "ProcessName", currentProcess.ProcessName), result[1]);
+            Assert.Equal("", result[0]);
+            Assert.Equal(string.Format(fmt, "Company", p.Company), result[1]);
+            Assert.Equal(string.Format(fmt, "ProcessName", currentProcess.ProcessName), result[2]);
+            Assert.Equal("", result[3]);
+
+            properties = new[] { "Company", "ProcessName" };
+            result = FormatList(p, properties);
+            Assert.Equal(4, result.Length);
+            fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";
+            Assert.Equal("", result[0]);
+            Assert.Equal(string.Format(fmt, "Company", p.Company), result[1]);
+            Assert.Equal(string.Format(fmt, "ProcessName", currentProcess.ProcessName), result[2]);
+            Assert.Equal("", result[3]);
         }
 
         [Fact]
@@ -95,13 +108,15 @@ namespace Test
 
             var properties = new [] {"ProcessId", "Name", "HandleCount", "WorkingSetSize", "VirtualSize"};
             var result = Format(cimInstance);
-            Assert.Equal(5, result.Length);
+            Assert.Equal(7, result.Length);
             var fmt = "{0,-" + properties.Max(prop => prop.Length) + "} : {1}";
-            Assert.Equal(string.Format(fmt, "ProcessId", currentProcess.Id), result[0]);
-            Assert.Equal(string.Format(fmt, "Name", currentProcess.ProcessName), result[1]);
-            Assert.Equal(string.Format(fmt, "HandleCount", currentProcess.HandleCount), result[2]);
-            Assert.Equal(string.Format(fmt, "WorkingSetSize", currentProcess.WorkingSet64), result[3]);
-            Assert.Equal(string.Format(fmt, "VirtualSize", currentProcess.VirtualMemorySize64), result[4]);
+            Assert.Equal("", result[0]);
+            Assert.Equal(string.Format(fmt, "ProcessId", currentProcess.Id), result[1]);
+            Assert.Equal(string.Format(fmt, "Name", currentProcess.ProcessName), result[2]);
+            Assert.Equal(string.Format(fmt, "HandleCount", currentProcess.HandleCount), result[3]);
+            Assert.Equal(string.Format(fmt, "WorkingSetSize", currentProcess.WorkingSet64), result[4]);
+            Assert.Equal(string.Format(fmt, "VirtualSize", currentProcess.VirtualMemorySize64), result[5]);
+            Assert.Equal("", result[6]);
         }
     }
 }
