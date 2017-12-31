@@ -1,7 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq.Expressions;
 using System.Management.Automation;
 using System.Reflection;
@@ -158,14 +157,18 @@ namespace PSMore.Formatting
                 {
                     case ListDescriptor lf:
                         style = Style.List;
+                        // Don't use the descriptor if there are no entries.
+                        if (lf.Entries.Count == 0) descriptor = null;
                         break;
 
                     case TableDescriptor tf:
                         style = Style.Table;
+                        // Don't use the descriptor if there are no entries.
+                        if (tf.Columns.Count == 0) descriptor = null;
                         break;
                 }
 
-                if (descriptor.Type == null)
+                if (descriptor != null && descriptor.Type == null)
                 {
                     descriptor = descriptor.Clone(type);
                 }
@@ -267,7 +270,10 @@ namespace PSMore.Formatting
                 {
                     for (int i = 0; i < cols; i++)
                     {
-                        colWidths[i] = Math.Max(colWidths[i], row.Columns[i]?.Length ?? 0);
+                        var specifiedWidth = _currentTableDescriptor.Columns[i].Width;
+                        colWidths[i] = specifiedWidth > 0
+                            ? specifiedWidth
+                            : Math.Max(colWidths[i], row.Columns[i]?.Length ?? 0);
                     }
                 }
 

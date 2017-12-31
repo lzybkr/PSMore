@@ -11,7 +11,7 @@ namespace PSMore.Formatting
 
         internal static FormatInstruction GetPropertyLineFormattedResult(string formatExpr, string propertyName, object property)
         {
-            var propertyAsString = (property == null ? "<null>" : property as string) ?? property.ToString();
+            var propertyAsString = (property == null ? "" : property as string) ?? property.ToString();
             return new EmitPropertyLine { Line = String.Format(formatExpr, propertyName, propertyAsString) };
         }
 

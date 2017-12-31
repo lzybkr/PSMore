@@ -1,10 +1,10 @@
 using System;
-using System.CodeDom;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Linq.Expressions;
+using System.Management.Automation;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -120,6 +120,22 @@ namespace PSMore.Formatting
             for (var i = 0; i < expressions.Length; i++)
             {
                 var col = descriptor.Columns[i];
+                if (col.Method != null)
+                {
+                    var type = descriptor.Type;
+                    expressions[i] = Expression.Dynamic(
+                        ToStringBinder.Instance,
+                        typeof(string),
+                        Expression.TryCatch(
+                            Expression.Call(col.Method,
+                                Expression.Convert(
+                                    Expression.Property(
+                                        Expression.Convert(toFormat, typeof(PSObject)), "BaseObject"),
+                                    type)),
+                            Expression.Catch(typeof(Exception), Expression.Default(col.Method.ReturnType))));
+                    continue;
+                }
+
                 var binder = FormatGetMemberBinder.Get(col.Property);
                 expressions[i] = Expression.Dynamic(
                     ToStringBinder.Instance,
@@ -175,7 +191,7 @@ namespace PSMore.Formatting
             if (target.Value == null)
             {
                 return new DynamicMetaObject(
-                    Expression.Constant("<null>"),
+                    Expression.Constant(""),
                     BindingRestrictions.GetExpressionRestriction(Expression.Equal(
                         Expression.Constant(null),
                         target.Expression)));

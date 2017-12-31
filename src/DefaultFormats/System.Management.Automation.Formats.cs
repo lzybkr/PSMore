@@ -1,4 +1,4 @@
-using PSMore.Formatting;
+using PSMore.FormattingAttributes;
 using System.Management.Automation;
 
 // ReSharper disable ClassNeverInstantiated.Global

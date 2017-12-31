@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace PSMore.Formatting
@@ -120,15 +121,21 @@ namespace PSMore.Formatting
         /// Initializes a new instance of the <see cref="ListDescriptorPropertyEntry"/> class.
         /// </summary>
         /// <param name="propertyName">The name of the property for this entry.</param>
-        public ListDescriptorPropertyEntry(string propertyName)
+        public ListDescriptorPropertyEntry(string propertyName, MethodInfo method = null)
         {
             PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
+            Method = method;
         }
 
         /// <summary>
         /// The name of the property.
         /// </summary>
         public string PropertyName { get; }
+
+        /// <summary>
+        /// The property is actually a method.
+        /// </summary>
+        public MethodInfo Method { get; }
 
         internal override string GetLabel() { return PropertyName; }
 
@@ -328,11 +335,13 @@ namespace PSMore.Formatting
         /// </summary>
         public TableColumn(
             string          property,
+            MethodInfo      method    = null,
             ColumnAlignment alignment = ColumnAlignment.Left,
             int             width     = 0,
             string          label     = null)
         {
             Property = property;
+            Method = method;
             Alignment = alignment;
             Width = width;
             Label = label;
@@ -342,6 +351,11 @@ namespace PSMore.Formatting
         /// The name of the property to use for the column.
         /// </summary>
         public string Property { get; }
+
+        /// <summary>
+        /// The property is actually a method.
+        /// </summary>
+        public MethodInfo Method { get; }
 
         /// <summary>
         /// Specifies the alignment within the column.
@@ -447,6 +461,8 @@ namespace PSMore.Formatting
         /// </summary>
         public ReadOnlyCollection<TableColumn> Columns { get; }
 
+        const string SpaceBetweenColumns = " ";
+
         /// <summary>
         ///
         /// </summary>
@@ -454,7 +470,7 @@ namespace PSMore.Formatting
         {
             if (colWidths == null || colWidths.Length != Columns.Count) throw new ArgumentException(nameof(colWidths));
 
-            var headerColumns = Columns.Select(c => c.Property ?? c.Label).ToArray();
+            var headerColumns = Columns.Select(c => c.Label ?? c.Property).ToArray();
 
             // Labels
             for (int i = 0; i < colWidths.Length; i++)
@@ -495,7 +511,7 @@ namespace PSMore.Formatting
                 }
                 var padding = colWidth - text.Length;
 
-                if (i != 0) sb.Append(' ');
+                if (i != 0) sb.Append(SpaceBetweenColumns);
 
                 if (Columns[i].Alignment == ColumnAlignment.Left)
                 {

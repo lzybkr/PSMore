@@ -1,4 +1,5 @@
 
+using PSMore.FormattingAttributes;
 using System;
 using System.Collections.Generic;
 
@@ -69,7 +70,7 @@ namespace PSMore.Formatting
                                     if (!(descriptor is ListDescriptor)) continue;
                                     break;
                                 case Style.Table:
-                                    //if (!(descriptor is TableFormat)) continue;
+                                    if (!(descriptor is TableDescriptor)) continue;
                                     break;
                             }
 
@@ -82,7 +83,7 @@ namespace PSMore.Formatting
                                 continue;
                             }
 
-                            return descriptor;
+                            return descriptor.Clone(criteria.Type);
                         }
                     }
 

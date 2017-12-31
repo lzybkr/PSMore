@@ -2,6 +2,7 @@ using System;
 using System.Management.Automation;
 using Microsoft.Management.Infrastructure;
 using PSMore.Formatting;
+using PSMore.FormattingAttributes;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedMember.Global

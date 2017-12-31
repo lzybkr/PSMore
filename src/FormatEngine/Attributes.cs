@@ -1,7 +1,8 @@
 
+using PSMore.Formatting;
 using System;
 
-namespace PSMore.Formatting
+namespace PSMore.FormattingAttributes
 {
     /// <summary>
     /// Specifies that a class defines the formatting for another type.
@@ -47,5 +48,32 @@ namespace PSMore.Formatting
         /// for example when using <c>Format-Wide</c>.
         /// </summary>
         public bool Default { get; set; }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
+    public class TableColumnAttribute : Attribute
+    {
+        /// <summary>
+        /// Specifies the column this property or field should appear in the formatted output.
+        /// </summary>
+        public int Position { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public ColumnAlignment Alignment { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public int Width { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string Label { get; set; }
     }
 }

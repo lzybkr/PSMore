@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks.Dataflow;
-using PSMore.Formatting;
+using PSMore.FormattingAttributes;
 
 namespace PSMore.Commands
 {
