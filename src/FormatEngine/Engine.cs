@@ -241,8 +241,8 @@ namespace PSMore.Formatting
                             var token = _tableProcessingTokenSource.Token;
                             _tableRowsBufferBlock = new BufferBlock<EmitTableRow>(
                                 new DataflowBlockOptions { CancellationToken = token });
-                            _tableRowProcessor = ProcessTableRows(_tableRowsBufferBlock, token);
                             _currentTableDescriptor = etr.Descriptor;
+                            _tableRowProcessor = ProcessTableRows(_tableRowsBufferBlock, token);
                         }
 
                         _tableRowsBufferBlock.Post(etr);
